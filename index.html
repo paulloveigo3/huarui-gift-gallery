@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta name="huarui-ui-version" content="1.6.0">
+<meta name="huarui-ui-version" content="1.7.1">
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -27,6 +27,16 @@ select, textarea {
 }
 .top{flex-wrap:nowrap!important;padding:14px!important;gap:10px}.brand h1{font-size:clamp(16px,4.8vw,21px);overflow:hidden;text-overflow:ellipsis}.brand .eyebrow{font-size:8px}.top-actions{position:relative;display:block!important;width:auto!important;padding:0!important;border:0!important;flex:none}.account{width:44px;height:44px;padding:9px!important;border:2px solid var(--red);color:var(--red);border-radius:50%}.account.logged{border-color:var(--green);color:var(--green)}.ui-icon{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;vertical-align:middle}.account-menu{position:absolute;right:0;top:52px;width:210px;padding:8px;background:white;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);z-index:25;display:grid;gap:4px}.account-menu button,.account-menu a{width:100%;text-align:left;justify-content:flex-start;border:0;padding:12px!important;font-size:15px!important}.account-state{padding:8px 12px;color:var(--muted);font-size:12px}.search-shell{display:flex;position:relative;flex:1;min-width:0}.search-shell input{width:100%;padding-right:50px}.scan-button{position:absolute;right:2px;top:2px;bottom:2px;padding:8px;border:0;background:transparent}.settings-row{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 0;border-bottom:1px solid var(--line)}.settings-row small{display:block;color:var(--muted);margin-top:4px}.switch{appearance:none;width:46px!important;height:28px!important;min-height:28px!important;padding:3px!important;flex:none;border:0;border-radius:99px;background:#c3cec8;cursor:pointer;transition:background .2s}.switch:before{content:'';display:block;width:22px;height:22px;background:white;border-radius:50%;box-shadow:0 1px 4px #0003;transition:transform .2s}.switch:checked{background:var(--green)}.switch:checked:before{transform:translateX(18px)}body:not(.show-stats) .stats,body:not(.show-source) .library-tools,body:not(.show-status) #sourceStatus{display:none!important}.metadata-pencil{flex:none!important;width:44px;height:44px;padding:9px;color:var(--green);background:var(--pale)}.camera-box{position:relative;width:100%;aspect-ratio:1;background:#12231e;border-radius:18px;overflow:hidden;color:white;touch-action:none}.camera-box video,.camera-box>img{width:100%;height:100%;object-fit:cover;display:block}.camera-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:10px 0}.camera-controls button{flex:1}.shutter{background:var(--green);color:white;border-color:var(--green)}.scan-window{position:relative;aspect-ratio:4/3;background:#12231e;border-radius:16px;overflow:hidden}.scan-window video{width:100%;height:100%;object-fit:cover}.scan-target{position:absolute;left:8%;right:8%;top:32%;height:36%;border:2px solid #fff;border-radius:8px;box-shadow:0 0 0 100vmax #0005;pointer-events:none}.scan-target:after{content:'';position:absolute;left:5%;right:5%;top:50%;border-top:2px solid #65e7b0}.scan-choice{display:block;width:100%;margin-top:8px;text-align:left}.remember{display:flex;gap:10px;align-items:center;margin-top:16px;font-size:14px}.remember input{min-height:20px}.login-account{width:100%;margin-top:12px}.camera-help{font-size:12px;color:var(--muted);margin:8px 0}.capture{height:auto;min-height:165px}#cameraError{margin-bottom:12px}@media(max-width:620px){.search-shell{flex-basis:100%}.top-actions>*{padding:9px!important}.account-menu{padding:8px!important}.dialoghead{gap:8px}.dialoghead h2{font-size:16px}.intro:has(.stats){margin-bottom:8px}}
 
+.metadata-panel{padding:16px;background:var(--pale);border:1px solid #b9d7c8;border-radius:14px;margin-bottom:18px}.metadata-panel h3{font-size:16px;margin:0}.metadata-panel #metadataStatus{margin:8px 0;overflow-wrap:anywhere}.metadata-panel[aria-busy="true"] #metadataStatus{color:var(--green)}
+.search-shell input{padding-left:48px}.qr-button{left:2px;right:auto}.scan-window.qr-mode .scan-target{left:17%;right:17%;top:6%;height:88%}
+/* 1.7.1: stable touch targets; keyboard users retain a visible focus outline. */
+.metadata-pencil{border:0;border-radius:8px;touch-action:manipulation;display:inline-flex;align-items:center;justify-content:center;padding:10px!important}
+.metadata-pencil svg,.copy-name svg{pointer-events:none}
+.metadata-pencil:focus:not(:focus-visible),.copy-name:focus:not(:focus-visible){outline:none}
+.dialoghead h2:focus{outline:none}
+.name-with-copy{display:flex;align-items:center;gap:6px;min-width:0}
+.name-with-copy h2,.name-with-copy .name{flex:1;min-width:0;margin:0}
+.copy-name{display:inline-flex;align-items:center;justify-content:center;flex:0 0 44px;width:44px;height:44px;padding:9px;border:0;background:transparent;touch-action:manipulation}
 </style>
 </head>
 <body>
@@ -36,7 +46,7 @@ select, textarea {
  <div class="intro"><div><h2 id="sectionTitle">商品圖庫</h2><p id="sectionHelp" class="muted"></p></div><div class="stats"><div><strong id="total">—</strong><span>全部商品</span></div><div><strong id="withPhoto">—</strong><span>已有照片</span></div><div><strong id="withoutPhoto">—</strong><span>待拍照</span></div></div></div>
  <div class="toolbar">
   <nav class="tabs" aria-label="主要功能"><button id="browseTab" class="active" aria-pressed="true">搜尋商品</button><button id="buildTab" aria-pressed="false">建立圖庫</button><button id="archiveTab" aria-pressed="false">封存商品</button></nav>
-  <div class="filters"><div class="search-shell"><input id="search" class="search" type="search" placeholder="搜尋商品名稱、編號、條碼…" aria-label="搜尋商品"><button id="scanButton" class="scan-button" aria-label="掃描商品條碼" title="掃描商品條碼"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7V3h4M17 3h4v4M21 17v4h-4M7 21H3v-4M6 7v10M9 7v10M12 7v10M16 7v10M19 7v10"/></svg></button></div><select id="category" aria-label="商品分類"><option value="">全部分類</option></select><select id="photoFilter" aria-label="照片狀態"><option value="all">全部商品</option><option value="yes">已有照片</option><option value="no">尚未拍照</option></select><button id="refresh">更新</button></div>
+  <div class="filters"><div class="search-shell"><button id="qrButton" class="scan-button qr-button" aria-label="掃描商品編號 QR Code" title="掃描商品編號 QR Code"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM14 14h3v3h4v4h-7zM20 12v2M11 3v4M11 11h3M3 11h4"/></svg></button><input id="search" class="search" type="search" placeholder="搜尋商品名稱、編號、條碼…" aria-label="搜尋商品"><button id="scanButton" class="scan-button" aria-label="掃描商品條碼" title="掃描商品條碼"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7V3h4M17 3h4v4M21 17v4h-4M7 21H3v-4M6 7v10M9 7v10M12 7v10M16 7v10M19 7v10"/></svg></button></div><select id="category" aria-label="商品分類"><option value="">全部分類</option></select><select id="photoFilter" aria-label="照片狀態"><option value="all">全部商品</option><option value="yes">已有照片</option><option value="no">尚未拍照</option></select><button id="refresh">更新</button></div>
   <details class="library-tools"><summary>圖庫工具與來源同步</summary><div class="tools"><label><input type="checkbox" id="autoPreload">每次開啟，背景預載全部封面</label><div class="spacer"></div><button id="preloadButton">立即預載封面</button><button id="clearCache">清除圖片快取</button><button id="sync" hidden>同步來源商品</button></div>
   <div id="preloadPanel" class="preload" hidden><progress id="preloadProgress" max="1" value="0"></progress><span id="preloadText"></span><button id="stopPreload">暫停</button></div></details>
  </div>
@@ -101,7 +111,7 @@ function rpc(name,...args){
 
 function storageGet(key){try{return localStorage.getItem(key);}catch(e){return null;}}
 function storageSet(key,val){try{localStorage.setItem(key,val);}catch(e){}}
-function showDialog(id){$(id).showModal();document.body.classList.add('modal');}
+function showDialog(id){if(id==='viewer'||id==='editor'){const heading=$(id).querySelector('h2');heading.tabIndex=-1;heading.setAttribute('autofocus','');}$(id).showModal();document.body.classList.add('modal');}
 function hideDialog(id){$(id).close();if(!document.querySelector('dialog[open]'))document.body.classList.remove('modal');}
 async function openDB(){
  return new Promise(resolve=>{try{const req=indexedDB.open('huarui-gallery-v1',1);req.onupgradeneeded=()=>{const db=req.result;db.createObjectStore('thumbs',{keyPath:'id'});db.createObjectStore('drafts',{keyPath:'id'});};req.onsuccess=()=>{state.db=req.result;state.db.onversionchange=()=>state.db.close();resolve();};req.onerror=()=>{state.cacheOkay=false;resolve();};req.onblocked=()=>{state.cacheOkay=false;resolve();};}catch(e){state.cacheOkay=false;resolve();}});
@@ -146,7 +156,7 @@ function appendCards(){
  const placeholder=document.createElement('div');placeholder.className='placeholder';const icon=document.createElement('b');icon.textContent=p.photos.length?'▧':'＋';placeholder.append(icon,document.createTextNode(p.photos.length?'載入照片':'待拍照'));cover.append(placeholder);
  const badge=document.createElement('span');badge.className='badge'+(p.photos.length?'':' empty');badge.textContent=p.photos.length?p.photos.length+' 張照片':'尚未拍照';cover.append(badge);
  if(p.photos.length){cover.dataset.product=p.id;cover.dataset.photo=p.photos[0].id;cover.dataset.name=p.name;imageObserver.observe(cover);}
- const body=document.createElement('div');body.className='cardbody';[['category',p.category||'未分類'],['name',p.name],['sku',p.id]].forEach(([cls,text])=>{const el=document.createElement('div');el.className=cls;el.textContent=text;body.append(el);});card.append(cover,body);card.onclick=()=>state.mode==='build'?openEditor(p):openViewer(p);frag.append(card);
+ const body=document.createElement('div');body.className='cardbody';[['category',p.category||'未分類'],['name',p.name],['sku',p.id]].forEach(([cls,text])=>{const el=document.createElement('div');el.className=cls;el.textContent=text;body.append(el);});attachNameCopy(body.querySelector('.name'),()=>p.name);card.append(cover,body);card.onclick=()=>state.mode==='build'?openEditor(p):openViewer(p);frag.append(card);
  });$('grid').append(frag);decorateInventory();state.shown+=slice.length;$('more').hidden=state.shown>=state.filtered.length;$('endText').textContent=state.shown&&state.shown>=state.filtered.length?'已顯示全部 '+state.shown+' 項':'';
 }
 new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)&&state.shown<state.filtered.length)appendCards();},{rootMargin:'300px'}).observe($('sentinel'));
@@ -177,7 +187,7 @@ async function startPreload(){
  $('preloadText').textContent=(state.stopPreload?'已暫停':'預載完成')+' · 可用 '+(done-failed)+' / '+all.length+(failed?' · 失敗 '+failed+' 張，可再次預載重試':'')+(state.cacheOkay?'':' · 此瀏覽器無法持久保存快取');
  $('stopPreload').hidden=true;$('preloadButton').disabled=false;$('clearCache').disabled=false;state.preloading=false;
 }
-function updateLogin(){if($('viewer').open)showProductMetadata(state.view); $('loginButton').textContent=state.token?'重新登入':'編輯登入';$('sync').hidden=!state.token;}
+function updateLogin(){ $('loginButton').textContent=state.token?'重新登入':'編輯登入';$('sync').hidden=!state.token;}
 async function ensureLogin(force=false){
  if(state.token&&!force)return true;if(state.loginResolve)return false;
  notice('loginError','');showDialog('loginDialog');setTimeout(()=>$('password').focus(),50);
@@ -421,7 +431,7 @@ $('editMetadata').onclick=async()=>{
  if(!state.view||!await ensureLogin())return;const id=state.view.id;
  try{const info=await rpc('apiProductEditInfo',id,state.token);if(state.view?.id!==id||!$('viewer').open)return;editInfo=info;editRequestId=uid();
   const f=$('productEditForm');f.elements.name.value=info.base.name;f.elements.unit.value=info.base.unit;
-  f.elements.category_no.replaceChildren(...info.categories.map(c=>new Option(c.name,c.id)));f.elements.category_no.value=info.base.category_no;f.hidden=false;$('editMetadata').hidden=true;
+  f.elements.category_no.replaceChildren(...info.categories.map(c=>new Option(c.id+' · '+c.name,c.id)));f.elements.category_no.value=info.base.category_no;f.hidden=false;$('editMetadata').hidden=true;
  }catch(e){$('metadataStatus').textContent=errorText(e);}
 };
 $('productEditForm').onsubmit=async e=>{
@@ -453,7 +463,7 @@ $('closeSettings').onclick=()=>hideDialog('settingsDialog');
 $('settingsDialog').addEventListener('cancel',e=>{e.preventDefault();hideDialog('settingsDialog');});
 const priorLogin=updateLogin;
 updateLogin=function(){priorLogin();$('accountButton').classList.toggle('logged',!!state.token);$('accountButton').setAttribute('aria-label',state.token?'已登入，開啟帳號選單':'未登入，開啟帳號選單');$('accountState').textContent=state.token?'已登入 · 可編輯':'未登入 · 瀏覽模式';$('logout').hidden=!state.token;};
-$('logout').onclick=async()=>{if(uploadWorking&&!await confirmInPage('照片仍在傳送，登出後其餘作業會等待重新登入。確定登出？'))return;state.token='';sessionStorage.removeItem('hg-token');$('password').value='';updateLogin();toast('已登出，草稿保留在此裝置。');};
+$('logout').onclick=async()=>{if(uploadWorking&&!await confirmInPage('照片仍在傳送，登出後其餘作業會等待重新登入。確定登出？'))return;rememberMetadataDraft();state.token='';sessionStorage.removeItem('hg-token');$('password').value='';if($('viewer').open)showProductMetadata(state.view);updateLogin();toast('已登出，草稿保留在此裝置。');};
 // Delegate remembered passwords to the browser password manager, never localStorage.
 $('rememberPassword').checked=storageGet('hg-remember-password')==='true';
 $('rememberPassword').onchange=()=>{storageSet('hg-remember-password',String($('rememberPassword').checked));$('password').autocomplete=$('rememberPassword').checked?'current-password':'off';};
@@ -462,7 +472,18 @@ $('loginForm').onsubmit=async e=>{const password=$('password').value;await prior
 $('editMetadata').innerHTML=pencil;$('editMetadata').className='metadata-pencil';$('editMetadata').title='修改商品名稱與分類';$('editMetadata').setAttribute('aria-label','修改商品名稱與分類');
 $('viewer').querySelector('.dialoghead').insertBefore($('editMetadata'),$('closeViewer'));
 const editorPencil=document.createElement('button');editorPencil.id='editorMetadata';editorPencil.className='metadata-pencil';editorPencil.innerHTML=pencil;editorPencil.setAttribute('aria-label','修改商品名稱與分類');editorPencil.title='修改商品名稱與分類';$('closeEditor').before(editorPencil);
-editorPencil.onclick=async()=>{if(!state.edit||state.processing)return;const product=state.edit.product;await closeEditor();void openViewer(product);await $('editMetadata').onclick();};
+let metadataSwitchPending=false;
+editorPencil.onclick=async()=>{
+ if(metadataSwitchPending||!state.edit||state.processing||state.saving)return;
+ const edit=state.edit;metadataSwitchPending=true;editorPencil.disabled=true;
+ try{
+  await saveDraft();
+  if(state.edit!==edit||!$('editor').open||state.processing||state.saving)return;
+  hideDialog('editor');state.edit=null;void openViewer(edit.product);
+  await $('editMetadata').onclick();
+ }catch(e){toast('無法開啟商品編輯：'+errorText(e));}
+ finally{metadataSwitchPending=false;editorPencil.disabled=false;}
+};
 // One camera owner. Late permission responses are stopped instead of reopening a camera.
 let cameraEpoch=0,cameraStream=null,scanControls=null,scanEpoch=0,scanBusy=false,capturePhoto=null;
 function stopCamera(){cameraEpoch++;scanEpoch++;scanControls?.stop();scanControls=null;cameraStream?.getTracks().forEach(t=>t.stop());cameraStream=null;for(const id of ['scanVideo','liveVideo'])$(id).srcObject=null;}
@@ -482,12 +503,180 @@ function closeScanner(){stopCamera();hideDialog('scannerDialog');}
 $('closeScanner').onclick=closeScanner;$('scannerDialog').addEventListener('cancel',e=>{e.preventDefault();closeScanner();});
 async function chooseScanned(p){closeScanner();if(p.archived){toast('此商品已封存，可在商品畫面恢復。');await openViewer(p);}else if(state.mode==='build'&&!inventoryMode)await openEditor(p);else await openViewer(p);}
 async function acceptBarcode(raw){if(scanBusy||!$('scannerDialog').open)return;scanBusy=true;stopCamera();const code=String(raw).trim();const equivalent=x=>/^\d{13}$/.test(x)&&x[0]==='0'?x.slice(1):x;const matches=state.products.filter(p=>{const b=String(p.barcode||'').trim();return b&&(b===code||equivalent(b)===equivalent(code));});$('scanMatches').replaceChildren();if(matches.length===1){await chooseScanned(matches[0]);return;}$('scanStatus').textContent=matches.length?'條碼對應多項商品，請選擇：':'查無條碼「'+code+'」，請重新掃描或關閉後搜尋。';for(const p of matches){const b=document.createElement('button');b.className='scan-choice';b.textContent=p.name+' · '+p.id+(p.archived?'（已封存）':'');b.onclick=()=>chooseScanned(p);$('scanMatches').append(b);}}
-async function startScanner(){scanBusy=false;$('scanMatches').replaceChildren();$('scanStatus').textContent='正在開啟相機…';if(!$('scannerDialog').open)showDialog('scannerDialog');try{if(!await cameraFor($('scanVideo')))return;const epoch=scanEpoch;const reader=new ZXingBrowser.BrowserMultiFormatReader(undefined,{delayBetweenScanAttempts:250,delayBetweenScanSuccess:1000});const controls=await reader.decodeFromVideoElement($('scanVideo'),result=>{if(result&&epoch===scanEpoch)void acceptBarcode(result.getText());});if(epoch!==scanEpoch)controls.stop();else{scanControls=controls;$('scanStatus').textContent='對準條碼並保持穩定，辨識後自動開啟商品。';}}catch(e){stopCamera();$('scanStatus').textContent=cameraMessage(e);}}
+async function startScanner(mode='barcode'){scanMode=mode;$('scannerDialog').querySelector('h2').textContent=mode==='qr'?'掃描商品編號 QR Code':'掃描商品條碼';$('scannerDialog').querySelector('.dialoghead .muted').textContent=mode==='qr'?'對準商品編號 QR Code，自動辨識':'將條碼放入框內，自動辨識';$('scannerDialog').querySelector('.scan-window').classList.toggle('qr-mode',mode==='qr');scanBusy=false;$('scanMatches').replaceChildren();$('scanStatus').textContent='正在開啟相機…';if(!$('scannerDialog').open)showDialog('scannerDialog');try{if(!await cameraFor($('scanVideo')))return;const epoch=scanEpoch;const Reader=scanMode==='qr'?ZXingBrowser.BrowserQRCodeReader:ZXingBrowser.BrowserMultiFormatReader;const reader=new Reader(undefined,{delayBetweenScanAttempts:250,delayBetweenScanSuccess:1000});const controls=await reader.decodeFromVideoElement($('scanVideo'),result=>{if(result&&epoch===scanEpoch)void acceptBarcode(result.getText());});if(epoch!==scanEpoch)controls.stop();else{scanControls=controls;$('scanStatus').textContent=scanMode==='qr'?'對準商品編號 QR Code，辨識後自動開啟商品。':'對準條碼並保持穩定，辨識後自動開啟商品。';}}catch(e){stopCamera();$('scanStatus').textContent=cameraMessage(e);}}
 $('scanButton').onclick=startScanner;$('scanAgain').onclick=startScanner;
 for(const id of ['editor','scannerDialog'])$(id).addEventListener('close',()=>{if(id==='editor')closeCapture();else stopCamera();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){if($('scannerDialog').open)closeScanner();closeCapture();}});
 window.addEventListener('pagehide',stopCamera);
 applyPreferences();updateLogin();
+
+// 1.6.1: visible metadata state and exact SKU/QR matching.
+const metadataPanel=document.createElement('section');metadataPanel.id='metadataPanel';metadataPanel.hidden=true;metadataPanel.className='metadata-panel';
+const metadataHeading=document.createElement('h3');metadataHeading.textContent='編輯商品資料';metadataPanel.append(metadataHeading,$('metadataStatus'),$('productEditForm'));
+$('viewer').querySelector('.dialogbody').prepend(metadataPanel);
+$('metadataStatus').setAttribute('aria-live','polite');
+let metadataSequence=0,metadataPending=null;
+const previousMetadata=showProductMetadata;
+showProductMetadata=function(p){if(state.view!==p)metadataPending=null;metadataSequence++;metadataPanel.hidden=true;metadataPanel.removeAttribute('aria-busy');$('editMetadata').disabled=false;return previousMetadata(p);};
+function revealMetadata(text){metadataPanel.hidden=false;$('metadataStatus').textContent=text;$('viewer').scrollTop=0;}
+$('editMetadata').onclick=async()=>{
+ const product=state.view;if(!product)return;
+ if(metadataPending||$('editMetadata').disabled)return;
+ if(editInfo&&!$('productEditForm').hidden&&['name','category_no','unit'].some(k=>metadataChanges()[k]!==String(editInfo.base[k]||''))){
+  revealMetadata('正在編輯的內容已保留，完成後按儲存修改。');$('productEditForm').elements.name.focus();return;
+ }
+ const request={product};metadataPending=request;$('editMetadata').disabled=true;
+ let sequence=metadataSequence,timer;
+ try{
+ revealMetadata('正在確認編輯權限…');
+ if(!await ensureLogin()){if(state.view===product&&$('viewer').open)revealMetadata('尚未登入，請再按鉛筆登入後編輯。');return;}
+ if(state.view!==product||!$('viewer').open)return;
+ if(metadataPending!==request)return;
+ sequence=++metadataSequence;
+ $('editMetadata').disabled=true;metadataPanel.setAttribute('aria-busy','true');
+ $('productEditForm').hidden=true;editInfo=null;editRequestId=null;
+ revealMetadata('正在讀取商品名稱與分類…');
+
+  const info=await Promise.race([rpc('apiProductEditInfo',product.id,state.token),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('讀取超過25秒，請檢查連線，再按鉛筆重試。')),25000);})]);
+  if(sequence!==metadataSequence||state.view!==product||!$('viewer').open)return;
+  if(!info||!info.base||(info.categories!=null&&!Array.isArray(info.categories)))throw Error('商品編輯資料格式不完整，請同步來源後重試。');
+  info.categories=(info.categories||[]).filter(c=>c&&c.id!=null&&String(c.id)!=='').map(c=>({id:String(c.id),name:String(c.name||'')}));editInfo=info;editRequestId=uid();const f=$('productEditForm');
+  f.elements.name.value=info.base.name;f.elements.unit.value=info.base.unit;
+  f.elements.category_no.replaceChildren(...info.categories.map(c=>new Option(c.id+' · '+c.name,c.id)));if(!info.categories.some(c=>c.id===info.base.category_no))f.elements.category_no.add(new Option((info.base.category_no?info.base.category_no+' · ':'')+(product.category||'維持原分類'),info.base.category_no||''));f.elements.category_no.value=info.base.category_no;
+  let original=$('originalCategory');if(!original){original=document.createElement('p');original.id='originalCategory';original.className='notice';f.elements.category_no.parentElement.before(original);}
+ const source=info.originalCategory||{id:info.base.category_no,name:product.category};original.textContent='原華瑞分類：'+(source.id?source.id+' · ':'編號尚未同步 · ')+(source.name||'未分類');
+ f.elements.category_no.setAttribute('aria-label','分類編號與名稱');
+ f.elements.category_no.required=false;f.elements.category_no.disabled=false;f.elements.unit.required=false;
+ renderCategoryHelp(info,product);
+  f.hidden=false;revealMetadata(info.canWriteback===false?'尚未具備本機回寫條件。請完成桌面連線驗證及新版商品名錄同步；編輯內容可先保留為本機草稿。':'可反覆修改；先暫存 GitHub，再排入下一開館日上午10點回寫。');
+  restoreMetadataDraft(product.id,info);
+ if(info.categoryMessage)$('metadataStatus').textContent+=' '+info.categoryMessage;
+ }catch(e){
+  if(sequence!==metadataSequence||state.view!==product||!$('viewer').open)return;
+  const message=errorText(e);
+  if(/登入|密碼|token|unauthorized/i.test(message)){state.token='';try{sessionStorage.removeItem('hg-token');}catch(ignore){}updateLogin();}
+  revealMetadata('無法開啟編輯：'+message+' 可再按上方鉛筆重試。');
+ }finally{clearTimeout(timer);if(metadataPending===request){metadataPending=null;$('editMetadata').disabled=false;metadataPanel.removeAttribute('aria-busy');}}
+};
+$('viewer').addEventListener('close',()=>{if($('viewer').open)return;metadataSequence++;metadataPending=null;$('editMetadata').disabled=false;});
+
+const categoryHelp=document.createElement('p');categoryHelp.id='categoryHelp';categoryHelp.className='notice';
+$('productEditForm').elements.category_no.parentElement.after(categoryHelp);
+const syncMetadata=document.createElement('button');syncMetadata.id='syncMetadata';syncMetadata.type='button';syncMetadata.textContent='同步來源分類';syncMetadata.hidden=true;
+categoryHelp.after(syncMetadata);
+function renderCategoryHelp(info,product){
+ const select=$('productEditForm').elements.category_no,known=new Set(info.categories.map(c=>c.name));
+ const names=[...new Set(state.products.map(p=>p.category).filter(Boolean))].filter(name=>!known.has(name)).sort();
+ for(const name of names){const option=new Option(name+'（編號待同步，暫存草稿）','@name:'+name);option.dataset.unresolved='true';select.add(option);}
+ select.value=String(info.base.category_no||'');
+ // Multiple options may have an empty value; explicitly retain the original choice.
+ if(!info.base.category_no)select.selectedIndex=[...select.options].findIndex(o=>!o.disabled&&o.value==='');
+ const missing=!info.categories.length;
+ categoryHelp.textContent=missing?'全部分類有名稱，但編輯用的分類編號尚未同步。現在可查看及選擇全部分類、保留草稿；取得正式編號後才能送出分類變更。請先在桌面同步並上傳新版商品名錄，再按「同步來源分類」。':names.length?'分類名稱與外面的全部分類共用；有編號的可送出，編號待同步的可先選擇並保留草稿。':'已載入 '+info.categories.length+' 個來源分類（編號與名稱）。';
+ syncMetadata.hidden=!missing&&!names.length;
+}
+syncMetadata.onclick=async()=>{
+ if(syncMetadata.disabled||metadataPending||!state.view)return;
+ const product=state.view;
+ if(editInfo){rememberMetadataDraft();if(['name','category_no','unit'].some(k=>metadataChanges()[k]!==String(editInfo.base[k]||''))&&!await confirmInPage('同步會重新讀取商品資料，未儲存內容已保留為本機草稿。是否繼續？'))return;}
+ if(state.view!==product||!$('viewer').open)return;
+ syncMetadata.disabled=true;$('editMetadata').disabled=true;
+ revealMetadata('正在同步來源商品與分類…');
+ try{
+  await rpc('apiSyncProducts',state.token);
+  if(state.view!==product||!$('viewer').open)return;
+  editInfo=null;$('productEditForm').hidden=true;$('editMetadata').disabled=false;
+  await $('editMetadata').onclick();
+ }catch(e){if(state.view===product&&$('viewer').open)revealMetadata('同步未完成：'+errorText(e)+'。目前表單與草稿保留。');}
+ finally{syncMetadata.disabled=false;if(state.view===product)$('editMetadata').disabled=false;}
+};
+
+// Separate QR SKU scanning from the existing barcode lookup.
+let scanMode='barcode';
+$('qrButton').onclick=()=>startScanner('qr');
+$('scanButton').onclick=()=>startScanner('barcode');
+$('scanAgain').onclick=()=>startScanner(scanMode);
+acceptBarcode=async function(raw){
+ if(scanBusy||!$('scannerDialog').open)return;scanBusy=true;stopCamera();
+ const code=String(raw).trim(),equivalent=x=>/^\d{13}$/.test(x)&&x[0]==='0'?x.slice(1):x;
+ const matches=state.products.filter(p=>{const id=String(p.id||'').trim(),b=String(p.barcode||'').trim();return scanMode==='qr'?id===code:!!b&&(b===code||equivalent(b)===equivalent(code));});
+ $('scanMatches').replaceChildren();
+ if(matches.length===1){await chooseScanned(matches[0]);return;}
+ $('scanStatus').textContent=matches.length?'掃描內容對應多項商品，請選擇：':'查無'+(scanMode==='qr'?'商品編號':'條碼')+'「'+code+'」，請重新掃描或關閉後搜尋。';
+ for(const p of matches){const b=document.createElement('button');b.className='scan-choice';b.textContent=p.name+' · '+p.id+(p.archived?'（已封存）':'');b.onclick=()=>chooseScanned(p);$('scanMatches').append(b);}
+};
+
+let metadataTransfer=null,metadataDoneTimer=null;
+function metadataDraftKey(id){return 'hg-metadata-draft-'+id;}
+function metadataChanges(){const f=$('productEditForm');return Object.fromEntries(['name','category_no','unit'].map(k=>[k,f.elements[k].value.trim()]));}
+function rememberMetadataDraft(){if(!state.view||!editInfo)return;storageSet(metadataDraftKey(state.view.id),JSON.stringify({base:editInfo.base,editVersion:editInfo.editVersion||'',changes:metadataChanges(),requestId:editRequestId}));}
+function restoreMetadataDraft(id,info){
+ try{
+  const draft=JSON.parse(storageGet(metadataDraftKey(id))||'null');if(!draft||!draft.changes)return;
+  const sourceCompleted=draft.base&&!draft.base.category_no&&info.base.category_no&&['name','unit','barcode'].every(k=>String(draft.base[k]||'')===String(info.base[k]||''));
+  if((draft.editVersion||'')!==(info.editVersion||'')||(!sourceCompleted&&JSON.stringify(draft.base)!==JSON.stringify(info.base))){
+   $('metadataStatus').textContent+=' 此裝置另有舊草稿，請核對最新資料再修改。';return;
+  }
+  const form=$('productEditForm'),select=form.elements.category_no;
+  for(const key of ['name','unit'])if(typeof draft.changes[key]==='string')form.elements[key].value=draft.changes[key];
+  const valid=[...select.options].some(o=>!o.disabled&&o.value===draft.changes.category_no);
+  if(valid)select.value=draft.changes.category_no;
+  else if(String(draft.changes.category_no).startsWith('@name:')&&info.categories.filter(c=>c.name===draft.changes.category_no.slice(6)).length===1)select.value=info.categories.find(c=>c.name===draft.changes.category_no.slice(6)).id;
+  else $('metadataStatus').textContent+=' 草稿分類已不在可用清單，保留原分類，請重新選擇。';
+  editRequestId=valid&&draft.requestId?draft.requestId:uid();
+  $('metadataStatus').textContent+=' 已恢復此裝置未完成的修改。';
+ }catch(ignore){}
+}
+
+$('productEditForm').addEventListener('input',()=>{editRequestId=uid();rememberMetadataDraft();});
+$('productEditForm').querySelector('[type=submit]').textContent='儲存修改';
+const photoProgress161=backgroundProgress;
+backgroundProgress=function(){photoProgress161();if(!metadataTransfer)return;if(metadataTransfer.state==='done'&&([...uploadJobs.values()].some(j=>!j.edit.cancelled&&j.state!=='done')||[...publishJobs.values()].some(j=>j.state!=='done')))return;if(metadataTransfer.state==='done'&&!prefs.keepUpload&&metadataTransfer.dismissed)return;
+ clearTimeout(completionTimer);completionTimer=null;
+ $('backgroundUpload').hidden=false;$('backgroundText').textContent=metadataTransfer.state==='uploading'?'商品資料上傳 GitHub 中…':metadataTransfer.state==='error'?'商品修改未完成，草稿已保留；請在編輯區重試。':'商品修改已上傳 GitHub。';
+ if(metadataTransfer.state==='uploading')$('backgroundBar').removeAttribute('value');else{$('backgroundBar').max=1;$('backgroundBar').value=metadataTransfer.state==='done'?1:0;}
+};
+$('productEditForm').onsubmit=async e=>{
+ e.preventDefault();if(!state.view||!editInfo||metadataTransfer?.state==='uploading')return;
+ if($('productEditForm').elements.category_no.selectedOptions[0]?.dataset.unresolved){rememberMetadataDraft();$('metadataStatus').textContent='已保留分類選擇與品名草稿。此分類尚未收到正式編號，請同步來源分類後再儲存；目前尚未送出回寫。';return;}
+ if(editInfo.canWriteback===false){rememberMetadataDraft();$('metadataStatus').textContent='尚不能排入本機回寫。請先完成桌面連線驗證、商品名錄同步，並核對舊暫存或衝突；草稿已保留。';return;}
+ if(editInfo.storage!=='github'){$('metadataStatus').textContent='請先更新這包的 Code.gs 並將原部署切換到新版本，再按鉛筆重新載入。尚未送出修改。';return;}
+ const product=state.view,info=editInfo,requestId=editRequestId||uid(),changes=metadataChanges(),f=$('productEditForm');
+ rememberMetadataDraft();const controls=[...f.elements];controls.forEach(el=>el.disabled=true);$('editMetadata').disabled=true;
+ metadataTransfer={state:'uploading',id:requestId};clearTimeout(metadataDoneTimer);backgroundProgress();$('metadataStatus').textContent='正在將修改暫存到私人 GitHub…';
+ try{
+  const result=await rpc('apiQueueProductEdit',{id:product.id,requestId:requestId,base:info.base,changes:changes,editVersion:info.editVersion||''},state.token);
+  if(result.staged!=='github')throw Error('後端未確認 GitHub 暫存，請確認 Code.gs 部署版本。');
+  const nextBase=result.base||Object.assign({},info.base,changes),nextVersion=result.editVersion||requestId;
+  const p=state.products.find(p=>p.id===product.id)||product;
+  const category=result.product?.category||(info.categories.find(c=>c.id===changes.category_no)||{}).name||p.category;
+  Object.assign(p,{name:changes.name,unit:changes.unit,category:category});updateProduct(p);applyFilters();
+  try{localStorage.removeItem(metadataDraftKey(product.id));}catch(ignore){}
+  if(state.view===product&&$('viewer').open){Object.assign(product,{name:changes.name,unit:changes.unit,category:category});$('viewName').textContent=changes.name;editInfo=Object.assign({},info,{base:nextBase,editVersion:nextVersion});editRequestId=uid();
+   $('metadataStatus').textContent=result.status==='WEB_ONLY'?'已儲存到 GitHub，圖庫已更新，可繼續修改。本機回寫尚待來源與連線設定完成。':'已儲存到 GitHub，可繼續修改；已排入 '+result.due+' 上午10點的本機回寫佇列；11月至2月週二休館順延。';
+   $('details').querySelectorAll('dt').forEach(dt=>{if(dt.textContent==='分類')dt.nextElementSibling.textContent=category;if(dt.textContent==='單位')dt.nextElementSibling.textContent=changes.unit;});
+  }
+  metadataTransfer={state:'done',id:requestId,dismissed:false};backgroundProgress();
+  metadataDoneTimer=setTimeout(()=>{if(metadataTransfer?.id===requestId){metadataTransfer.dismissed=true;backgroundProgress();}},3500);
+ }catch(error){metadataTransfer={state:'error',id:requestId};if(state.view===product)$('metadataStatus').textContent='儲存未完成：'+errorText(error)+' 草稿保留，可再按儲存重試。';backgroundProgress();}
+ finally{if(state.view===product&&$('viewer').open){controls.forEach(el=>el.disabled=false);$('editMetadata').disabled=false;}}
+};
+
+
+// Copy only the displayed item name, never IDs, categories or hidden data.
+async function copyItemName(text,button){
+ const fallback=()=>{const input=document.createElement('textarea');input.value=text;input.setAttribute('aria-label','複製品名');input.style.cssText='position:fixed;left:0;top:0;width:1px;height:1px;opacity:0';(button.closest('dialog')||document.body).append(input);input.select();let ok=false;try{ok=document.execCommand('copy');}finally{input.remove();button.focus({preventScroll:true});}if(!ok)throw Error('copy denied');};
+ try{if(navigator.clipboard?.writeText){try{await navigator.clipboard.writeText(text);}catch(e){fallback();}}else fallback();toast('已複製品名');}
+ catch(e){toast('無法使用剪貼簿，請長按品名複製。');}
+}
+function attachNameCopy(name,getName){
+ if(!name||name.parentElement.classList.contains('name-with-copy'))return;
+ const row=document.createElement('div');row.className='name-with-copy';name.before(row);row.append(name);
+ const button=document.createElement('button');button.type='button';button.className='copy-name';button.title='複製品名';button.setAttribute('aria-label','複製品名');button.innerHTML='<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg>';
+ button.onclick=e=>{e.stopPropagation();void copyItemName(String(getName()||''),button);};row.append(button);
+}
+attachNameCopy($('viewName'),()=>$('viewName').textContent);
+attachNameCopy($('editName'),()=>$('editName').textContent);
 
 </script>
 </body>
