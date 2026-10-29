@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+<meta name="huarui-ui-version" content="1.5.2">
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -15,6 +16,15 @@
 #productEditForm{display:grid;gap:12px;margin-top:16px}#productEditForm label{display:grid;gap:5px}#inventoryDetail{margin:20px 0}#metadataStatus{margin-top:12px}
 .count-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 15px;border:1px solid var(--line);border-radius:12px;background:white;color:var(--ink);text-decoration:none;font-size:14px;white-space:nowrap}.top-actions{flex-wrap:wrap}@media(max-width:620px){.top-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.top-actions>*{min-width:0;padding:8px 5px!important;font-size:12px!important}}
 .background-upload{position:sticky;top:0;z-index:10;background:#e5f3eb;border-bottom:1px solid #b9d7c8;padding:10px 16px;display:flex;gap:10px;align-items:center;font-size:13px}.background-upload span{flex:1}.background-upload progress{width:100px;accent-color:#187561}.background-upload button{min-height:36px}.intro>div:first-child{display:none}.intro .stats{width:100%;justify-content:space-between}.inline-confirm{max-width:430px}.inline-confirm p{margin-top:12px}.inline-confirm h2{font-size:18px}@media(max-width:620px){.background-upload{flex-wrap:wrap}.background-upload span{flex-basis:100%}.background-upload progress{flex:1}.intro .stats{margin-top:0;padding-top:0;border-top:0}}
+
+/* Mobile input focus: readable controls without disabling pinch zoom. */
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+select, textarea {
+  font-size: 16px;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
 </style>
 </head>
 <body>
@@ -37,7 +47,7 @@
 </main>
 <dialog id="viewer"><div class="dialoghead"><div><h2 id="viewName"></h2><p id="viewId" class="muted"></p></div><button id="closeViewer" aria-label="關閉商品照片">✕</button></div><div class="dialogbody"><div id="viewEmpty" class="empty" hidden>這項商品還沒有照片。</div><img id="bigPhoto" class="bigphoto" alt="商品大圖" hidden><p id="bigStatus" class="muted" role="status"></p><div id="strip" class="strip"></div><dl id="details" class="details"></dl><section id="inventoryDetail"></section><button id="editMetadata" hidden>修改商品資料</button><form id="productEditForm" hidden><label>商品名稱<input name="name" maxlength="30" required></label><label>分類<select name="category_no" required></select></label><label>單位<input name="unit" maxlength="4" required></label><button type="submit" class="primary">儲存，隔日回寫本機</button></form><p id="metadataStatus" role="status" class="muted"></p><button id="restoreProduct" class="restore-product" hidden>恢復商品</button></div><div class="dialogfoot"><span class="muted">第一張照片為商品封面</span><button id="editViewed" class="primary">新增／管理照片</button></div></dialog>
 <dialog id="editor"><div class="dialoghead"><div><h2 id="editName"></h2><p id="editId" class="muted"></p></div><button id="closeEditor" aria-label="關閉拍照">✕</button></div><div class="dialogbody">
- <p id="editorBackground" class="muted" role="status" style="margin-bottom:10px"></p><button id="captureButton" class="capture"><span class="icon" aria-hidden="true">◎</span><strong>點一下，拍攝商品</strong><small>開啟手機相機 · 拍完回到此處預覽</small></button>
+ <p id="editorFreshness" class="muted" role="status" style="margin-bottom:10px"></p><p id="editorBackground" class="muted" role="status" style="margin-bottom:10px"></p><button id="captureButton" class="capture"><span class="icon" aria-hidden="true">◎</span><strong>點一下，拍攝商品</strong><small>開啟手機相機 · 拍完回到此處預覽</small></button>
  <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden><input id="albumInput" type="file" accept="image/*" multiple hidden>
  <div class="edittools"><span id="photoCount">0 / 8 張</span><button id="albumButton">從相簿增加</button></div>
  <div id="photoList" class="photolist"></div><p class="muted" style="margin-top:12px">可拍多張。按「設封面」切換首圖；按確定後才會公開顯示。</p>
@@ -172,17 +182,46 @@ async function openViewer(p){
  if(p.photos.length)await showFull(p,p.photos[0],0);
 }
 async function showFull(p,photo,i){const seq=++viewSequence;$('bigStatus').textContent='讀取第 '+(i+1)+' / '+p.photos.length+' 張…';$('bigPhoto').removeAttribute('src');try{const r=await rpc('apiMedia',[{productId:p.id,photoId:photo.id,kind:'full'}]);if(seq!==viewSequence)return;if(!r[0].data)throw new Error(r[0].error);$('bigPhoto').src=r[0].data;$('bigStatus').textContent=(i+1)+' / '+p.photos.length;}catch(e){if(seq===viewSequence)$('bigStatus').textContent=errorText(e);}}
-async function openEditor(p){
- if(publishJobs.has(p.id)&&publishJobs.get(p.id).state!=='done'){toast('此商品正在背景儲存，可先操作其他商品。');return;}
- if(!await ensureLogin())return;
- state.stopPreload=true;
- try{const fresh=await rpc('apiProduct',p.id);updateProduct(fresh);const draft=uploadDrafts.has(p.id)?{edit:uploadDrafts.get(p.id)}:await dbAction('drafts','readonly',s=>s.get(p.id));
-  fresh.photos=Array.isArray(fresh.photos)?fresh.photos:[];state.edit={product:fresh,revision:fresh.revision,photos:fresh.photos.map(p=>({id:p.id,existing:true})),dirty:false,requestId:uid()};
-  if(draft&&draft.edit&&await confirmInPage('此商品有尚未確認的草稿，要繼續編輯嗎？'))state.edit=draft.edit;
-  else if(draft){draft.edit.cancelled=true;uploadDrafts.delete(p.id);await dbAction('drafts','readwrite',s=>s.delete(p.id));}
-  if(state.edit.dirty)uploadDrafts.set(fresh.id,state.edit);enqueuePhotos(state.edit);$('editName').textContent=fresh.name;$('editId').textContent=fresh.id;notice('editError','');$('resolveConflict').hidden=!state.edit.conflict;$('uploadProgress').hidden=true;showDialog('editor');renderEditor();
- }catch(e){toast(errorText(e));if(/登入|密碼/.test(errorText(e)))state.token='';}
+let editorOpenSequence=0;
+function editorIsCurrent(edit,sequence){return state.edit===edit&&editorOpenSequence===sequence&&$('editor').open&&!edit.cancelled;}
+async function refreshEditorProduct(edit,sequence){
+ try{
+  const fresh=await rpc('apiProduct',edit.product.id);
+  if(!editorIsCurrent(edit,sequence))return;
+  if(!fresh||fresh.id!==edit.product.id||!Number.isInteger(fresh.revision)||fresh.revision<0||!Array.isArray(fresh.photos))throw new Error('商品回應格式不正確。');
+  updateProduct(fresh);
+  // Never replace local edits or photos being compressed with a late response.
+  if(edit.dirty||state.processing){
+   if(edit.revision!==fresh.revision){
+    edit.conflict=true;$('resolveConflict').hidden=false;
+    $('editorFreshness').textContent='其他人已更新照片；你的拍照草稿保留，儲存前請先載入最新版本。';
+    if(edit.dirty)await persistEdit(edit);
+   }else{$('editorFreshness').textContent='已核對最新商品；目前草稿保留。';}
+   return;
+  }
+  edit.product=fresh;edit.revision=fresh.revision;edit.photos=fresh.photos.map(photo=>({id:photo.id,existing:true}));
+  $('editName').textContent=fresh.name;$('editorFreshness').textContent='已核對最新商品。';renderEditor();
+ }catch(error){
+  if(editorIsCurrent(edit,sequence))$('editorFreshness').textContent='最新資料暫時無法取得，可先拍照；確認儲存時仍會核對版本。';
+ }
 }
+async function openEditor(p){
+ if(state.processing){toast('照片壓縮中，請稍候。');return;}
+ if(publishJobs.has(p.id)&&publishJobs.get(p.id).state!=='done'){toast('此商品正在背景儲存，可先操作其他商品。');return;}
+ const sequence=++editorOpenSequence;
+ if(!await ensureLogin()||sequence!==editorOpenSequence)return;
+ state.stopPreload=true;
+ const draft=uploadDrafts.get(p.id);
+ const edit=draft&&!draft.cancelled?draft:{product:{...p},revision:p.revision||0,photos:(Array.isArray(p.photos)?p.photos:[]).map(photo=>({id:photo.id,existing:true})),dirty:false,requestId:uid()};
+ state.edit=edit;
+ $('editName').textContent=p.name;$('editId').textContent=p.id;notice('editError','');
+ $('resolveConflict').hidden=!edit.conflict;$('uploadProgress').hidden=true;
+ $('editorFreshness').textContent=edit.dirty?'已恢復草稿；背景核對最新商品中，可繼續拍照。':'可立即拍照；背景核對最新商品中…';
+ if(!$('editor').open)showDialog('editor');renderEditor();
+ enqueuePhotos(edit);
+ void refreshEditorProduct(edit,sequence);
+}
+
 function updateProduct(p){const i=state.products.findIndex(x=>x.id===p.id);if(i>=0)state.products[i]=p;renderStats();}
 async function saveDraft(){const edit=state.edit;if(edit&&edit.dirty)await persistEdit(edit);}
 function changed(){state.edit.dirty=true;state.edit.requestId=uid();saveDraft();renderEditor();}
@@ -275,6 +314,7 @@ async function pumpUploads(){
 }
 async function commitBackground(){
  const edit=state.edit;if(!edit||state.processing)return;
+ if(edit.conflict){notice('editError','請先按「載入最新，保留新增照片」核對照片版本，再確認儲存。');$('resolveConflict').hidden=false;return;}
  if(!edit.dirty){await closeEditor();return;}
  if(!state.token&&!await ensureLogin())return;
  edit.queued=true;await persistEdit(edit);publishJobs.set(edit.product.id,{edit,state:'pending'});
@@ -314,7 +354,7 @@ $('sync').onclick=async()=>{if(!await ensureLogin())return;$('sync').disabled=tr
 window.addEventListener('beforeunload',e=>{if(state.processing||[...uploadDrafts.values()].some(e=>e.dirty&&!e.persisted)||uploadWorking){e.preventDefault();e.returnValue='';}});
 function onlineStatus(){$('offline').hidden=navigator.onLine;}window.addEventListener('online',onlineStatus);window.addEventListener('offline',onlineStatus);
 if(typeof setInterval==='function')setInterval(()=>{if(state.loaded&&!document.hidden&&navigator.onLine&&!state.saving&&!state.processing&&!document.querySelector('dialog[open]'))loadCatalog(true);},180000);
-(async()=>{onlineStatus();try{state.token=sessionStorage.getItem('hg-token')||'';}catch(e){}updateLogin();await openDB();await trimCache();await loadCatalog();await resumeBackground();})();
+(async()=>{onlineStatus();try{state.token=sessionStorage.getItem('hg-token')||'';}catch(e){}updateLogin();await openDB();await trimCache();await resumeBackground();await loadCatalog();})();
 const layoutModes=['list','one','two','four'];
 const layoutNames={list:'清單',one:'每排一圖',two:'每排兩圖',four:'每排四圖'};
 let galleryLayout=storageGet('hg-layout')||'two';
