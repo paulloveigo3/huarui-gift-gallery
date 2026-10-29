@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>華瑞商品圖庫</title>
+<style>
+:root{--bg:#f4f6f3;--paper:#fff;--ink:#203d38;--muted:#6d7e78;--line:#dce5df;--green:#187561;--pale:#e5f3eb;--red:#ae4242;--shadow:0 20px 80px #173e3522}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Noto Sans TC",sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:white;border-radius:12px;color:var(--ink);padding:10px 15px;min-height:44px}button:hover{border-color:#99b5a7}button:disabled{opacity:.5;cursor:wait}button.primary{background:var(--green);border-color:var(--green);color:white}button.quiet{background:transparent}button.danger{color:var(--red)}input,select{border:1px solid var(--line);border-radius:12px;background:white;padding:12px;min-height:46px;color:var(--ink)}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #e2b754;outline-offset:2px}[hidden]{display:none!important}h1,h2,p{margin:0}header{background:#fff;border-bottom:1px solid var(--line)}.top{max-width:1320px;margin:auto;padding:26px 28px;display:flex;align-items:center;gap:16px}.mark{width:46px;height:46px;border-radius:16px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:26px}.brand{flex:1}h1{font-size:23px;font-weight:750;letter-spacing:.03em}.eyebrow{font-size:11px;color:var(--green);font-weight:750;letter-spacing:.16em}.muted{color:var(--muted);font-size:13px}.wrap{max-width:1320px;margin:auto;padding:26px 28px 70px}.intro{display:flex;gap:22px;align-items:center;justify-content:space-between;margin-bottom:22px}.intro h2{font-size:27px;letter-spacing:.02em}.stats{display:flex;gap:26px}.stats strong{font-size:25px;display:block;line-height:1.2}.stats span{font-size:12px;color:var(--muted)}.toolbar{position:sticky;top:0;z-index:3;background:var(--bg);padding:10px 0 14px}.tabs{display:flex;gap:8px;margin-bottom:14px}.tabs button{border:none;background:#e8ede7;min-width:135px}.tabs button.active{background:var(--ink);color:white}.filters{display:flex;gap:10px}.search{flex:1;min-width:0}.filters select{max-width:180px}.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}.tools label{font-size:13px;display:flex;align-items:center;gap:7px}.tools input{min-height:0;width:16px;height:16px}.tools button{font-size:12px;padding:5px 10px;min-height:34px}.tools .spacer{flex:1}.status{margin:12px 0;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:8px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:17px}.card{padding:0;overflow:hidden;text-align:left;border:1px solid var(--line);background:#fff;border-radius:17px;min-width:0;transition:transform .15s}.card:hover{transform:translateY(-3px)}.cover{aspect-ratio:1/1;position:relative;background:#eaf0e8;display:grid;place-items:center;overflow:hidden}.cover img{width:100%;height:100%;object-fit:cover;display:block}.placeholder{text-align:center;color:#90a398;font-size:13px}.placeholder b{font-size:35px;font-weight:400;display:block;line-height:1.4}.badge{position:absolute;right:10px;bottom:10px;border-radius:9px;padding:4px 8px;font-size:11px;background:#ffffffeb;color:var(--ink)}.badge.empty{background:#ffffffc0;color:#75827a}.cardbody{padding:14px}.category{font-size:11px;color:var(--green);margin-bottom:5px;min-height:17px}.name{font-weight:650;font-size:15px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:45px}.sku{font-size:12px;color:var(--muted);margin-top:8px;overflow-wrap:anywhere}.empty{padding:50px 20px;text-align:center;border:1px dashed #b6c9bc;border-radius:16px;background:#ffffff88}.empty h2{font-size:21px;margin-bottom:8px}.notice{padding:12px 15px;border-radius:12px;background:#fff3d9;color:#7b5b19;font-size:13px;margin:10px 0}.preload{background:var(--pale);padding:10px 14px;border-radius:12px;font-size:12px;margin-top:10px;display:flex;align-items:center;gap:10px}.preload progress{width:100px;accent-color:var(--green)}.preload span{flex:1}.sentinel{text-align:center;padding:24px;color:var(--muted)}dialog{width:min(720px,calc(100% - 24px));max-height:94dvh;border:1px solid var(--line);border-radius:22px;padding:0;box-shadow:var(--shadow);color:var(--ink)}dialog::backdrop{background:#102b2580;backdrop-filter:blur(3px)}.dialoghead{position:sticky;top:0;background:white;z-index:5;padding:18px 20px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center}.dialoghead div{flex:1;min-width:0}.dialoghead h2{font-size:18px;overflow-wrap:anywhere}.dialogbody{padding:20px}.dialogfoot{position:sticky;bottom:0;padding:13px 20px max(13px,env(safe-area-inset-bottom));border-top:1px solid var(--line);background:white;display:flex;align-items:center;gap:10px;z-index:5}.dialogfoot .muted{flex:1}.capture{width:100%;height:190px;background:#eef6ef;border:2px dashed #a2bfb0;border-radius:18px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--green)}.capture .icon{font-size:42px;line-height:1}.capture strong{font-size:18px}.capture small{color:var(--muted)}.edittools{display:flex;gap:10px;margin:12px 0 18px;align-items:center}.edittools span{flex:1;font-size:12px;color:var(--muted)}.photolist{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.phototile{border:1px solid var(--line);border-radius:12px;overflow:hidden}.phototile img{display:block;aspect-ratio:1;object-fit:cover;width:100%;background:#eef0ec}.phototile .actions{display:flex;align-items:center;justify-content:space-between;padding:6px;gap:4px}.phototile button{font-size:11px;padding:3px 7px;min-height:32px}.phototile small{padding:0 8px;color:var(--muted)}.bigphoto{width:100%;max-height:55dvh;object-fit:contain;background:#eef0ec;border-radius:12px;min-height:150px;display:block}.strip{display:flex;overflow-x:auto;gap:8px;margin:12px 0;padding-bottom:4px}.strip button{padding:0;min-width:76px;width:76px;height:76px;overflow:hidden}.strip img{width:100%;height:100%;object-fit:cover}.details{display:grid;grid-template-columns:85px 1fr;gap:9px;font-size:14px;margin-top:16px;overflow-wrap:anywhere}.details dt{color:var(--muted)}.details dd{margin:0}.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);max-width:90%;background:var(--ink);color:white;padding:12px 20px;border-radius:12px;z-index:30;box-shadow:var(--shadow);font-size:14px}.err{color:var(--red);background:#fff0ed;padding:12px;border-radius:10px;font-size:13px;white-space:pre-line;margin-top:12px}.busy{display:flex;align-items:center;gap:8px;margin:12px 0;color:var(--green);font-size:13px}.busy progress{flex:1;accent-color:var(--green)}#loginDialog{max-width:390px}#password{width:100%;margin-top:14px}#loginDialog .dialogfoot{justify-content:flex-end}body.modal{overflow:hidden}.offline{border-radius:0;margin:0;text-align:center}.loadmark{font-size:13px;color:var(--muted)}@media(max-width:620px){.top{padding:18px 16px;gap:10px}.mark{width:38px;height:38px;font-size:22px}h1{font-size:19px}.eyebrow{font-size:9px}.wrap{padding:20px 14px 60px}.intro{align-items:flex-start;gap:12px}.intro h2{font-size:22px}.stats{gap:13px}.stats strong{font-size:22px}.stats span{font-size:10px}.intro p{font-size:12px;margin-top:5px;max-width:180px}.filters{flex-wrap:wrap}.search{width:100%;flex-basis:100%}.filters select{flex:1;max-width:none;min-width:0}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.cardbody{padding:11px}.name{font-size:14px;min-height:42px}.category{font-size:10px}.sku{font-size:11px}.top>button{padding:7px 10px;font-size:12px}.tabs button{flex:1;min-width:0}.toolbar{padding-top:5px}.tools .spacer{display:none}.tools{gap:6px}.tools label{font-size:12px}.tools button{font-size:11px}.dialogbody{padding:15px}.dialoghead{padding:15px}.dialogfoot{padding:12px 15px max(12px,env(safe-area-inset-bottom))}.photolist{gap:8px}.phototile .actions{flex-wrap:wrap}.capture{height:180px}.preload progress{width:65px}.status{font-size:12px}dialog{width:calc(100% - 14px);max-height:96dvh;border-radius:18px}.badge{right:7px;bottom:7px;font-size:10px}.notice{font-size:12px}}
+/* Four explicit layouts; controls remain usable on narrow phones. */
+.badge.empty{padding:4px 8px;border:0;border-radius:9px}.library-tools{margin-top:10px;font-size:13px;color:var(--muted)}.library-tools summary{cursor:pointer;padding:8px 0;min-height:40px}.library-tools[open]{padding-bottom:8px}.library-tools .tools{margin-top:4px}
+.top{gap:12px;padding:20px 24px}.brand{min-width:0}.brand h1{font-size:21px;white-space:nowrap}.mark{flex:none;padding:8px;border:0;min-width:44px;min-height:44px}.mark svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7}.top-actions{display:flex;gap:8px;align-items:center}.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.tabs button{min-width:0;padding:10px 6px}.toolbar{position:relative}.grid[data-layout="one"]{grid-template-columns:minmax(0,1fr)}.grid[data-layout="two"]{grid-template-columns:repeat(2,minmax(0,1fr))}.grid[data-layout="four"]{grid-template-columns:repeat(4,minmax(0,1fr))}.grid[data-layout="list"]{grid-template-columns:minmax(0,1fr);gap:8px}.grid[data-layout="list"] .card{display:grid;grid-template-columns:88px minmax(0,1fr);align-items:center}.grid[data-layout="list"] .cover{height:88px;width:88px}.grid[data-layout="list"] .name{min-height:0}.grid[data-layout="list"] .category{min-height:0}.grid[data-layout="list"] .sku{margin-top:4px}.grid[data-layout="list"] .badge{display:none}.grid[data-layout="one"] .cover{max-height:460px;aspect-ratio:4/3}.card{box-shadow:0 3px 14px #163b2d08}.card:hover{transform:none;border-color:#9bbbac}.name{overflow-wrap:anywhere}.dialogfoot{flex-wrap:wrap}.dialogfoot>span{flex-basis:100%!important}.dialogfoot button{flex:1;white-space:nowrap}.archive-action{flex:0 0 44px!important;padding:8px}.archive-action svg{width:22px;height:22px;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:1.8}.restore-product{width:100%;margin-top:16px}.stock-quantity{font-size:21px;font-variant-numeric:tabular-nums;font-weight:700;color:var(--green);margin-top:8px}.stock-caption{font-size:11px;color:var(--muted)}
+@media(max-width:620px){.top{padding:14px;flex-wrap:wrap;gap:10px}.top .brand{flex:1}.top-actions{width:100%;justify-content:flex-end;border-top:1px solid var(--line);padding-top:10px}.top-actions button{font-size:13px;padding:8px 14px}.wrap{padding-top:18px}.intro{display:block;margin-bottom:12px}.intro h2{font-size:22px}.intro p{max-width:none}.stats{margin-top:16px;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);justify-content:space-between}.stats>div{flex:1}.tools{gap:8px}.tools label{flex-basis:100%}.tools button{min-height:40px}.grid[data-layout="four"]{gap:5px}.grid[data-layout="four"] .cardbody{padding:6px}.grid[data-layout="four"] .category{display:none}.grid[data-layout="four"] .name{font-size:11px;line-height:1.45;min-height:32px}.grid[data-layout="four"] .sku{font-size:9px;margin-top:3px}.grid[data-layout="four"] .badge{right:2px;bottom:2px;padding:2px;font-size:9px}.grid[data-layout="four"] .placeholder{font-size:10px}.grid[data-layout="four"] .placeholder b{font-size:22px}.grid[data-layout="four"] .stock-quantity{font-size:16px}.grid[data-layout="four"] .stock-caption{font-size:9px}.dialoghead h2{font-size:17px}.dialogfoot{gap:8px}.dialogfoot button{font-size:13px;padding:9px}.photolist{grid-template-columns:repeat(2,minmax(0,1fr))}.capture{height:155px}.status{flex-wrap:wrap}dialog{max-height:94dvh}.details{grid-template-columns:75px minmax(0,1fr)}.grid[data-layout="list"] .cardbody{padding:10px 14px}}
+
+#productEditForm{display:grid;gap:12px;margin-top:16px}#productEditForm label{display:grid;gap:5px}#inventoryDetail{margin:20px 0}#metadataStatus{margin-top:12px}
+.count-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 15px;border:1px solid var(--line);border-radius:12px;background:white;color:var(--ink);text-decoration:none;font-size:14px;white-space:nowrap}.top-actions{flex-wrap:wrap}@media(max-width:620px){.top-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.top-actions>*{min-width:0;padding:8px 5px!important;font-size:12px!important}}
+.background-upload{position:sticky;top:0;z-index:10;background:#e5f3eb;border-bottom:1px solid #b9d7c8;padding:10px 16px;display:flex;gap:10px;align-items:center;font-size:13px}.background-upload span{flex:1}.background-upload progress{width:100px;accent-color:#187561}.background-upload button{min-height:36px}.intro>div:first-child{display:none}.intro .stats{width:100%;justify-content:space-between}.inline-confirm{max-width:430px}.inline-confirm p{margin-top:12px}.inline-confirm h2{font-size:18px}@media(max-width:620px){.background-upload{flex-wrap:wrap}.background-upload span{flex-basis:100%}.background-upload progress{flex:1}.intro .stats{margin-top:0;padding-top:0;border-top:0}}
+</style>
+</head>
+<body>
+<div id="offline" class="notice offline" hidden>目前沒有網路。請保留頁面，連線後再上傳。</div>
+<header><div class="top"><button class="mark" id="layoutToggle" aria-label="切換商品排列">▧</button><div class="brand"><div class="eyebrow">HUARUI · PRODUCT LIBRARY</div><h1 id="title">華瑞商品圖庫</h1></div><div class="top-actions"><a id="todayCount" class="count-link" href="https://script.google.com/macros/s/AKfycbxLHKJ8KbtUvcklsZ8-_Q_RH9Hn6OEFPunTodQZa345hCugbwDBDVPYY6308uS66cSXZA/exec" target="_blank" rel="noopener noreferrer">當日盤點 ↗</a><button id="yesterdayButton" aria-pressed="false">昨日庫存</button><button id="loginButton">編輯登入</button></div></div></header>
+<div id="backgroundUpload" class="background-upload" role="status" aria-live="polite" hidden><span id="backgroundText"></span><progress id="backgroundBar" max="1" value="0"></progress><button id="backgroundRetry" hidden>重試上傳</button></div><main class="wrap">
+ <div class="intro"><div><h2 id="sectionTitle">商品圖庫</h2><p id="sectionHelp" class="muted"></p></div><div class="stats"><div><strong id="total">—</strong><span>全部商品</span></div><div><strong id="withPhoto">—</strong><span>已有照片</span></div><div><strong id="withoutPhoto">—</strong><span>待拍照</span></div></div></div>
+ <div class="toolbar">
+  <nav class="tabs" aria-label="主要功能"><button id="browseTab" class="active" aria-pressed="true">搜尋商品</button><button id="buildTab" aria-pressed="false">建立圖庫</button><button id="archiveTab" aria-pressed="false">封存商品</button></nav>
+  <div class="filters"><input id="search" class="search" type="search" placeholder="搜尋商品名稱、編號、條碼…" aria-label="搜尋商品"><select id="category" aria-label="商品分類"><option value="">全部分類</option></select><select id="photoFilter" aria-label="照片狀態"><option value="all">全部商品</option><option value="yes">已有照片</option><option value="no">尚未拍照</option></select><button id="refresh">更新</button></div>
+  <details class="library-tools"><summary>圖庫工具與來源同步</summary><div class="tools"><label><input type="checkbox" id="autoPreload">每次開啟，背景預載全部封面</label><div class="spacer"></div><button id="preloadButton">立即預載封面</button><button id="clearCache">清除圖片快取</button><button id="sync" hidden>同步來源商品</button></div>
+  <div id="preloadPanel" class="preload" hidden><progress id="preloadProgress" max="1" value="0"></progress><span id="preloadText"></span><button id="stopPreload">暫停</button></div></details>
+ </div>
+ <div id="pageError" class="err" role="alert" hidden></div>
+ <div id="sourceStatus" class="notice" role="status" hidden></div>
+ <div class="status"><span id="resultText" role="status">正在讀取商品資料…</span><span id="syncTime"></span></div>
+ <div id="grid" class="grid"></div>
+ <div id="empty" class="empty" hidden><h2 id="emptyTitle">沒有符合的商品</h2><p id="emptyHelp" class="muted">換個關鍵字或分類再試試。</p></div>
+ <div class="sentinel" id="sentinel"><button id="more" hidden>顯示更多商品</button><span id="endText"></span></div>
+</main>
+<dialog id="viewer"><div class="dialoghead"><div><h2 id="viewName"></h2><p id="viewId" class="muted"></p></div><button id="closeViewer" aria-label="關閉商品照片">✕</button></div><div class="dialogbody"><div id="viewEmpty" class="empty" hidden>這項商品還沒有照片。</div><img id="bigPhoto" class="bigphoto" alt="商品大圖" hidden><p id="bigStatus" class="muted" role="status"></p><div id="strip" class="strip"></div><dl id="details" class="details"></dl><section id="inventoryDetail"></section><button id="editMetadata" hidden>修改商品資料</button><form id="productEditForm" hidden><label>商品名稱<input name="name" maxlength="30" required></label><label>分類<select name="category_no" required></select></label><label>單位<input name="unit" maxlength="4" required></label><button type="submit" class="primary">儲存，隔日回寫本機</button></form><p id="metadataStatus" role="status" class="muted"></p><button id="restoreProduct" class="restore-product" hidden>恢復商品</button></div><div class="dialogfoot"><span class="muted">第一張照片為商品封面</span><button id="editViewed" class="primary">新增／管理照片</button></div></dialog>
+<dialog id="editor"><div class="dialoghead"><div><h2 id="editName"></h2><p id="editId" class="muted"></p></div><button id="closeEditor" aria-label="關閉拍照">✕</button></div><div class="dialogbody">
+ <p id="editorBackground" class="muted" role="status" style="margin-bottom:10px"></p><button id="captureButton" class="capture"><span class="icon" aria-hidden="true">◎</span><strong>點一下，拍攝商品</strong><small>開啟手機相機 · 拍完回到此處預覽</small></button>
+ <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden><input id="albumInput" type="file" accept="image/*" multiple hidden>
+ <div class="edittools"><span id="photoCount">0 / 8 張</span><button id="albumButton">從相簿增加</button></div>
+ <div id="photoList" class="photolist"></div><p class="muted" style="margin-top:12px">可拍多張。按「設封面」切換首圖；按確定後才會公開顯示。</p>
+ <div id="uploadProgress" class="busy" hidden><progress id="uploadBar" max="1" value="0"></progress><span id="uploadText"></span></div>
+ <div id="editError" class="err" role="alert" hidden></div><button id="resolveConflict" hidden style="margin-top:10px">載入最新，保留新增照片</button>
+ </div><div class="dialogfoot"><span id="draftStatus" class="muted">照片會先壓縮，再儲存。</span><button id="archiveProduct" class="archive-action" title="封存商品" aria-label="封存商品"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h18v5H3zM5 8v13h14V8M9 12h6"/></svg></button><button id="discard" class="danger">捨棄草稿</button><button id="save" class="primary">確定儲存</button></div></dialog>
+<dialog id="loginDialog"><form id="loginForm"><div class="dialoghead"><div><h2>編輯登入</h2><p class="muted">輸入試算表「設定」中的編輯密碼。</p></div></div><div class="dialogbody"><input id="password" type="password" autocomplete="current-password" placeholder="編輯密碼" required aria-label="編輯密碼"><div id="loginError" class="err" hidden role="alert"></div></div><div class="dialogfoot"><button type="button" id="cancelLogin">取消</button><button class="primary" type="submit" id="submitLogin">登入</button></div></form></dialog>
+<div id="toast" class="toast" hidden role="status"></div>
+<script src="config.js"></script>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const state={products:[],filtered:[],shown:0,mode:'browse',maxPhotos:8,token:'',loaded:false,edit:null,view:null,saving:false,processing:false,preloading:false,stopPreload:false,mediaQueue:[],mediaPending:new Map(),mediaBusy:false,db:null,cacheOkay:true,loginResolve:null};
+const memory=new Map();let toastTimer,searchTimer,viewSequence=0;
+function uid(){return typeof crypto.randomUUID==='function'?crypto.randomUUID():Array.from(crypto.getRandomValues(new Uint8Array(24)),b=>b.toString(16).padStart(2,'0')).join('');}
+function errorText(e){return e&&e.message?e.message:String(e);}
+function notice(id,text){$(id).textContent=text;$(id).hidden=!text;}
+function toast(text){$('toast').textContent=text;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,4000);}
+function rpc(name,...args){
+ const endpoint=window.HUARUI_GALLERY_CONFIG?.apiUrl;
+ if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(endpoint||''))return Promise.reject(new Error('請先在 config.js 設定圖庫 /exec 網址。'));
+ return (async()=>{
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),120000);
+  try{
+   // text/plain avoids a preflight; credentials stay in the request body.
+   const response=await fetch(endpoint,{method:'POST',credentials:'omit',redirect:'follow',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({action:'galleryRpc',method:name,args}),signal:controller.signal});
+   if(!response.ok)throw new Error('圖庫連線失敗（HTTP '+response.status+'），草稿保留。');
+   let data;try{data=await response.json();}catch(e){throw new Error('GS尚未回傳圖庫API資料，請確認已更新原部署。');}
+   if(data.format!=='huarui-gallery-web-1')throw new Error('請先將這包的 Code.gs 部署到圖庫原網址。');
+   if(data.ok!==true)throw new Error(data.message||'圖庫要求未完成。');
+   return data.result;
+  }catch(error){
+   if(error.name==='AbortError')throw new Error('等待圖庫逾時，草稿保留；請重試，系統會沿用同一上傳識別碼。');
+   if(error instanceof TypeError)throw new Error('無法連線圖庫，請確認網路及GS部署存取設定。');
+   throw error;
+  }finally{clearTimeout(timer);}
+ })();
+}
+
+function storageGet(key){try{return localStorage.getItem(key);}catch(e){return null;}}
+function storageSet(key,val){try{localStorage.setItem(key,val);}catch(e){}}
+function showDialog(id){$(id).showModal();document.body.classList.add('modal');}
+function hideDialog(id){$(id).close();if(!document.querySelector('dialog[open]'))document.body.classList.remove('modal');}
+async function openDB(){
+ return new Promise(resolve=>{try{const req=indexedDB.open('huarui-gallery-v1',1);req.onupgradeneeded=()=>{const db=req.result;db.createObjectStore('thumbs',{keyPath:'id'});db.createObjectStore('drafts',{keyPath:'id'});};req.onsuccess=()=>{state.db=req.result;state.db.onversionchange=()=>state.db.close();resolve();};req.onerror=()=>{state.cacheOkay=false;resolve();};req.onblocked=()=>{state.cacheOkay=false;resolve();};}catch(e){state.cacheOkay=false;resolve();}});
+}
+function dbAction(store,mode,act){return new Promise(resolve=>{if(!state.db){resolve(null);return;}try{const tx=state.db.transaction(store,mode),req=act(tx.objectStore(store));let value=null;req.onsuccess=()=>value=req.result;tx.oncomplete=()=>resolve(mode==='readonly'?value:(value===undefined?true:value));tx.onerror=tx.onabort=()=>{state.cacheOkay=false;resolve(null);};}catch(e){state.cacheOkay=false;resolve(null);}});}
+function remember(id,data){memory.delete(id);memory.set(id,data);if(memory.size>120)memory.delete(memory.keys().next().value);}
+async function cachedThumb(id){if(memory.has(id))return memory.get(id);const r=await dbAction('thumbs','readonly',s=>s.get(id));if(r){remember(id,r.data);return r.data;}return null;}
+async function cacheThumb(id,data){remember(id,data);await dbAction('thumbs','readwrite',s=>s.put({id,data,time:Date.now()}));}
+async function trimCache(){const all=await dbAction('thumbs','readonly',s=>s.getAllKeys());if(all&&all.length>7000){await dbAction('thumbs','readwrite',s=>s.clear());toast('圖片快取已達上限，已重新整理快取。');}}
+async function thumb(productId,photoId,background=false){
+ const found=await cachedThumb(photoId);if(found)return found;
+ if(state.mediaPending.has(photoId))return state.mediaPending.get(photoId);
+ const p=new Promise((resolve,reject)=>{const job={productId,photoId,resolve,reject};background?state.mediaQueue.push(job):state.mediaQueue.unshift(job);});
+ state.mediaPending.set(photoId,p);setTimeout(pumpMedia,20);return p;
+}
+async function pumpMedia(){
+ if(state.mediaBusy||!state.mediaQueue.length)return;state.mediaBusy=true;
+ const jobs=state.mediaQueue.splice(0,8);
+ try{const result=await rpc('apiMedia',jobs.map(j=>({productId:j.productId,photoId:j.photoId,kind:'thumb'})));
+  for(const j of jobs){const r=result.find(r=>r.id===j.photoId);if(r&&r.data){await cacheThumb(r.id,r.data);j.resolve(r.data);}else j.reject(new Error(r?r.error:'讀取縮圖失敗。'));}
+ }catch(e){jobs.forEach(j=>j.reject(e));}finally{jobs.forEach(j=>state.mediaPending.delete(j.photoId));state.mediaBusy=false;if(state.mediaQueue.length)setTimeout(pumpMedia,30);}
+}
+const imageObserver=new IntersectionObserver(entries=>{entries.forEach(e=>{const box=e.target;box.dataset.visible=String(e.isIntersecting);if(e.isIntersecting){loadCover(box);return;}box.querySelector('img')?.remove();if(!box.querySelector('.placeholder')){const ph=document.createElement('div');ph.className='placeholder';ph.textContent='▧';box.prepend(ph);}});},{rootMargin:'350px'});
+async function loadCover(box){
+ try{if(box.querySelector('img'))return;const data=await thumb(box.dataset.product,box.dataset.photo);if(!box.isConnected||box.dataset.visible!=='true'||box.querySelector('img'))return;const img=document.createElement('img');img.src=data;img.alt=box.dataset.name;img.decoding='async';box.querySelector('.placeholder')?.remove();box.prepend(img);}
+ catch(e){const ph=box.querySelector('.placeholder');if(ph){ph.textContent='圖片暫時讀取失敗';ph.title=errorText(e);}}
+}
+function renderStats(){const n=state.products.filter(p=>p.photos.length).length;$('total').textContent=state.products.length.toLocaleString();$('withPhoto').textContent=n.toLocaleString();$('withoutPhoto').textContent=(state.products.length-n).toLocaleString();}
+function applyFilters(){
+ const q=$('search').value.trim().toLocaleLowerCase(),cat=$('category').value,f=$('photoFilter').value;
+ state.filtered=(inventoryMode?inventoryProducts():state.products).filter(p=>(inventoryMode|| (state.mode==='archive'?p.archived===true:p.archived!==true))&&(!q||[p.id,p.name,p.barcode].some(x=>x.toLocaleLowerCase().includes(q)))&&(!cat||p.category===cat)&&(f==='all'||(f==='yes'?p.photos.length>0:p.photos.length===0)));
+ imageObserver.disconnect();$('grid').replaceChildren();state.shown=0;
+ $('empty').hidden=!!state.filtered.length;
+ $('emptyTitle').textContent=state.products.length?'沒有符合的商品':'還沒有商品資料';
+ $('emptyHelp').textContent=state.products.length?(state.mode==='build'?'此篩選下沒有待拍商品。可切換「全部商品」補拍更多角度。':'換個關鍵字或分類再試試。'):'請先在試算表「商品資料」貼入清單，或設定來源後執行同步。';
+ $('resultText').textContent=(state.mode==='build'?'選擇商品開始拍照':'商品查詢')+' · '+state.filtered.length.toLocaleString()+' 項';appendCards();
+}
+function appendCards(){
+ const slice=state.filtered.slice(state.shown,state.shown+60),frag=document.createDocumentFragment();
+ slice.forEach(p=>{const card=document.createElement('button');card.className='card';card.dataset.productId=p.id;card.setAttribute('aria-label',p.name+'，'+p.photos.length+'張照片');
+ const cover=document.createElement('div');cover.className='cover';
+ const placeholder=document.createElement('div');placeholder.className='placeholder';const icon=document.createElement('b');icon.textContent=p.photos.length?'▧':'＋';placeholder.append(icon,document.createTextNode(p.photos.length?'載入照片':'待拍照'));cover.append(placeholder);
+ const badge=document.createElement('span');badge.className='badge'+(p.photos.length?'':' empty');badge.textContent=p.photos.length?p.photos.length+' 張照片':'尚未拍照';cover.append(badge);
+ if(p.photos.length){cover.dataset.product=p.id;cover.dataset.photo=p.photos[0].id;cover.dataset.name=p.name;imageObserver.observe(cover);}
+ const body=document.createElement('div');body.className='cardbody';[['category',p.category||'未分類'],['name',p.name],['sku',p.id]].forEach(([cls,text])=>{const el=document.createElement('div');el.className=cls;el.textContent=text;body.append(el);});card.append(cover,body);card.onclick=()=>state.mode==='build'?openEditor(p):openViewer(p);frag.append(card);
+ });$('grid').append(frag);decorateInventory();state.shown+=slice.length;$('more').hidden=state.shown>=state.filtered.length;$('endText').textContent=state.shown&&state.shown>=state.filtered.length?'已顯示全部 '+state.shown+' 項':'';
+}
+new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)&&state.shown<state.filtered.length)appendCards();},{rootMargin:'300px'}).observe($('sentinel'));
+function setMode(mode){document.querySelector('.intro>div:first-child').style.display='none';state.mode=mode;document.querySelector('.tabs').hidden=inventoryMode;['browse','build','archive'].forEach(x=>{const b=$(x+'Tab');b.classList.toggle('active',mode===x);b.setAttribute('aria-pressed',String(mode===x));});$('sectionTitle').textContent=mode==='archive'?'封存商品':mode==='build'?'把商品，一件件拍齊。':'商品圖庫';$('sectionHelp').textContent=mode==='archive'?'保留商品與照片，隨時可以恢復。':mode==='build'?'選擇商品拍照，也可封存停售商品。':'';$('photoFilter').value=mode==='build'?'no':'all';applyFilters();}
+async function loadCatalog(background=false){
+ if(state.catalogLoading)return;state.catalogLoading=true;
+ const previousShown=state.shown,previousScroll=window.scrollY||0;
+ $('refresh').disabled=true;notice('pageError','');
+ try{const c=await rpc('apiCatalog');const same=JSON.stringify(state.products)===JSON.stringify(c.products);state.products=c.products;state.maxPhotos=c.maxPhotos;$('title').textContent=c.title;document.title=c.title;
+  const sync=c.sync||{};let status=sync.message||'';if(sync.sourceDate)status+=' 來源時間：'+new Date(sync.sourceDate).toLocaleString('zh-TW');
+  notice('sourceStatus',status);$('sourceStatus').style.background=sync.status==='error'?'#fff0ed':sync.status==='warning'?'#fff3d9':'#e5f3eb';
+  const old=$('category').value;$('category').replaceChildren(new Option('全部分類',''));[...new Set(c.products.map(p=>p.category).filter(Boolean))].sort().forEach(cat=>$('category').add(new Option(cat,cat)));$('category').value=old;if($('category').selectedIndex<0)$('category').value='';
+  $('syncTime').textContent=c.lastSync?'同步 '+new Date(c.lastSync).toLocaleString('zh-TW',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}):'商品清單已讀取';
+  renderStats();if(!background||!same){applyFilters();if(background){while(state.shown<previousShown&&state.shown<state.filtered.length)appendCards();window.scrollTo(0,previousScroll);toast('商品與照片清單已自動更新。');}}
+  if(!state.loaded){const preference=storageGet('hg-auto-preload');$('autoPreload').checked=preference===null?c.autoPreload:preference==='true';state.loaded=true;if($('autoPreload').checked)setTimeout(startPreload,500);}
+ }catch(e){notice('pageError',errorText(e));$('resultText').textContent=state.loaded?'更新失敗，保留上次清單。':'商品資料讀取失敗';}finally{$('refresh').disabled=false;state.catalogLoading=false;}
+}
+async function startPreload(){
+ if(state.preloading||!state.loaded)return;const all=state.products.filter(p=>p.photos.length).map(p=>({id:p.id,photo:p.photos[0].id}));
+ if(!all.length){toast('目前還沒有商品封面可預載。');return;}
+ state.preloading=true;state.stopPreload=false;$('preloadPanel').hidden=false;$('stopPreload').hidden=false;$('preloadButton').disabled=true;$('clearCache').disabled=true;
+ let done=0,failed=0;$('preloadProgress').max=all.length;$('preloadProgress').value=0;
+ for(let i=0;i<all.length&&!state.stopPreload;i+=8){if(state.saving||state.processing||document.hidden){state.stopPreload=true;break;}
+  const results=await Promise.allSettled(all.slice(i,i+8).map(p=>thumb(p.id,p.photo,true)));failed+=results.filter(r=>r.status==='rejected').length;done+=results.length;
+  $('preloadProgress').value=done;$('preloadText').textContent='已處理 '+done+' / '+all.length+' 張封面'+(failed?' · 失敗 '+failed:'');
+  if(failed>=24){state.stopPreload=true;break;}
+ }
+ $('preloadText').textContent=(state.stopPreload?'已暫停':'預載完成')+' · 可用 '+(done-failed)+' / '+all.length+(failed?' · 失敗 '+failed+' 張，可再次預載重試':'')+(state.cacheOkay?'':' · 此瀏覽器無法持久保存快取');
+ $('stopPreload').hidden=true;$('preloadButton').disabled=false;$('clearCache').disabled=false;state.preloading=false;
+}
+function updateLogin(){if($('viewer').open)showProductMetadata(state.view); $('loginButton').textContent=state.token?'重新登入':'編輯登入';$('sync').hidden=!state.token;}
+async function ensureLogin(force=false){
+ if(state.token&&!force)return true;if(state.loginResolve)return false;
+ $('password').value='';notice('loginError','');showDialog('loginDialog');setTimeout(()=>$('password').focus(),50);
+ return new Promise(resolve=>state.loginResolve=resolve);
+}
+function finishLogin(value){hideDialog('loginDialog');const resolve=state.loginResolve;state.loginResolve=null;if(resolve)resolve(value);}
+$('loginForm').onsubmit=async e=>{e.preventDefault();$('submitLogin').disabled=true;notice('loginError','');try{const r=await rpc('apiLogin',$('password').value);state.token=r.token;try{sessionStorage.setItem('hg-token',state.token);}catch(ignore){}updateLogin();finishLogin(true);toast('已登入，可建立與修改圖庫。');void pumpUploads();}catch(err){notice('loginError',errorText(err));}finally{$('submitLogin').disabled=false;}};
+async function openViewer(p){
+ p={...p,photos:Array.isArray(p.photos)?p.photos:[]};$('restoreProduct').hidden=!p.archived;$('editViewed').hidden=!!p.archived;showProductMetadata(p);
+ state.view=p;$('viewName').textContent=p.name;$('viewId').textContent=p.id;$('strip').replaceChildren();$('details').replaceChildren();
+ [['商品編號',p.id],['條碼',p.barcode||'—'],['分類',p.category||'—'],['單位',p.unit||'—']].forEach(([k,v])=>{const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=k;dd.textContent=v;$('details').append(dt,dd);});
+ $('viewEmpty').hidden=!!p.photos.length;$('bigPhoto').hidden=!p.photos.length;$('bigPhoto').removeAttribute('src');$('bigStatus').textContent='';showDialog('viewer');
+ p.photos.forEach((photo,i)=>{const btn=document.createElement('button');btn.setAttribute('aria-label','查看第'+(i+1)+'張');const img=document.createElement('img');img.alt='第'+(i+1)+'張商品照片';btn.append(img);$('strip').append(btn);thumb(p.id,photo.id).then(data=>img.src=data).catch(()=>img.alt='讀取失敗');btn.onclick=()=>showFull(p,photo,i);});
+ if(p.photos.length)await showFull(p,p.photos[0],0);
+}
+async function showFull(p,photo,i){const seq=++viewSequence;$('bigStatus').textContent='讀取第 '+(i+1)+' / '+p.photos.length+' 張…';$('bigPhoto').removeAttribute('src');try{const r=await rpc('apiMedia',[{productId:p.id,photoId:photo.id,kind:'full'}]);if(seq!==viewSequence)return;if(!r[0].data)throw new Error(r[0].error);$('bigPhoto').src=r[0].data;$('bigStatus').textContent=(i+1)+' / '+p.photos.length;}catch(e){if(seq===viewSequence)$('bigStatus').textContent=errorText(e);}}
+async function openEditor(p){
+ if(publishJobs.has(p.id)&&publishJobs.get(p.id).state!=='done'){toast('此商品正在背景儲存，可先操作其他商品。');return;}
+ if(!await ensureLogin())return;
+ state.stopPreload=true;
+ try{const fresh=await rpc('apiProduct',p.id);updateProduct(fresh);const draft=uploadDrafts.has(p.id)?{edit:uploadDrafts.get(p.id)}:await dbAction('drafts','readonly',s=>s.get(p.id));
+  fresh.photos=Array.isArray(fresh.photos)?fresh.photos:[];state.edit={product:fresh,revision:fresh.revision,photos:fresh.photos.map(p=>({id:p.id,existing:true})),dirty:false,requestId:uid()};
+  if(draft&&draft.edit&&await confirmInPage('此商品有尚未確認的草稿，要繼續編輯嗎？'))state.edit=draft.edit;
+  else if(draft){draft.edit.cancelled=true;uploadDrafts.delete(p.id);await dbAction('drafts','readwrite',s=>s.delete(p.id));}
+  if(state.edit.dirty)uploadDrafts.set(fresh.id,state.edit);enqueuePhotos(state.edit);$('editName').textContent=fresh.name;$('editId').textContent=fresh.id;notice('editError','');$('resolveConflict').hidden=!state.edit.conflict;$('uploadProgress').hidden=true;showDialog('editor');renderEditor();
+ }catch(e){toast(errorText(e));if(/登入|密碼/.test(errorText(e)))state.token='';}
+}
+function updateProduct(p){const i=state.products.findIndex(x=>x.id===p.id);if(i>=0)state.products[i]=p;renderStats();}
+async function saveDraft(){const edit=state.edit;if(edit&&edit.dirty)await persistEdit(edit);}
+function changed(){state.edit.dirty=true;state.edit.requestId=uid();saveDraft();renderEditor();}
+function renderEditor(){backgroundProgress();
+ const edit=state.edit;if(!edit)return;$('photoCount').textContent=edit.photos.length+' / '+state.maxPhotos+' 張';$('photoList').replaceChildren();
+ edit.photos.forEach((p,i)=>{const tile=document.createElement('div');tile.className='phototile';const img=document.createElement('img');img.alt='商品照片 '+(i+1);
+ if(p.thumb)img.src=p.thumb;else thumb(edit.product.id,p.id).then(data=>img.src=data).catch(()=>img.alt='照片暫時無法讀取');
+ const actions=document.createElement('div');actions.className='actions';const cover=document.createElement('button');cover.textContent=i===0?'✓ 封面':'設封面';cover.disabled=i===0||state.saving||state.processing;cover.onclick=()=>{edit.photos.splice(i,1);edit.photos.unshift(p);changed();};const del=document.createElement('button');del.textContent='刪除';del.className='danger';del.disabled=state.saving||state.processing;del.onclick=()=>{edit.photos.splice(i,1);changed();};actions.append(cover,del);tile.append(img,actions);$('photoList').append(tile);});
+ const busy=state.saving||state.processing;['save','discard','closeEditor'].forEach(id=>$(id).disabled=busy);['captureButton','albumButton'].forEach(id=>$(id).disabled=busy||edit.photos.length>=state.maxPhotos);
+ if(!edit.dirty)$('draftStatus').textContent='照片會先壓縮，再儲存。';
+}
+function fileImage(file){return new Promise((resolve,reject)=>{const url=URL.createObjectURL(file),img=new Image();img.onload=()=>{URL.revokeObjectURL(url);resolve(img);};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('無法解讀照片。請改用手機拍照，或選擇JPEG／PNG；部分瀏覽器不支援HEIC。'));};img.src=url;});}
+function jpeg(img,maxSide,maxBytes){
+ const canvas=document.createElement('canvas');let scale=Math.min(1,maxSide/Math.max(img.naturalWidth,img.naturalHeight)),data='';
+ for(let attempt=0;attempt<6;attempt++){canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));const ctx=canvas.getContext('2d');if(!ctx)throw new Error('手機無法處理照片，請重新開啟頁面。');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,canvas.width,canvas.height);
+  for(const quality of [.82,.72,.60,.48]){data=canvas.toDataURL('image/jpeg',quality);if(data.length*0.75<maxBytes){canvas.width=canvas.height=1;return data;}}
+  scale*=.78;
+ }canvas.width=canvas.height=1;throw new Error('照片壓縮失敗，請選較小照片。');
+}
+async function addFiles(files){
+ if(!state.edit||state.saving||state.processing)return;state.processing=true;renderEditor();notice('editError','');
+ try{for(const file of files){if(state.edit.photos.length>=state.maxPhotos){toast('已達每項 '+state.maxPhotos+' 張上限。');break;}if(file.size>30*1024*1024)throw new Error('單張來源超過30MB，請選擇較小照片。');if(file.type&&!file.type.startsWith('image/'))throw new Error('請選擇圖片檔案。');$('draftStatus').textContent='正在處理照片…';const img=await fileImage(file);const p={id:uid(),existing:false,full:jpeg(img,1600,850000),thumb:jpeg(img,320,55000),uploaded:false};state.edit.photos.push(p);state.edit.dirty=true;state.edit.requestId=uid();await saveDraft();enqueuePhotos(state.edit);renderEditor();}}
+ catch(e){notice('editError',errorText(e));}finally{state.processing=false;$('cameraInput').value='';$('albumInput').value='';renderEditor();}
+}
+async function closeEditor(){if(state.saving||state.processing)return;await saveDraft();hideDialog('editor');state.edit=null;}
+async function commit(){return commitBackground();}
+async function resolveConflict(){
+ if(state.saving||state.processing)return;state.processing=true;renderEditor();$('resolveConflict').disabled=true;
+ try{const edit=state.edit,latest=await rpc('apiProduct',edit.product.id);const ids=new Set(latest.photos.map(p=>p.id));const added=edit.photos.filter(p=>!p.existing&&!ids.has(p.id));
+  if(latest.photos.length+added.length>state.maxPhotos)throw new Error('最新照片加上新增照片超過上限，請先移除部分新增照片再合併。');
+  edit.conflict=false;edit.product=latest;edit.revision=latest.revision;edit.photos=latest.photos.map(p=>({id:p.id,existing:true})).concat(added);edit.dirty=true;edit.requestId=uid();await saveDraft();notice('editError','已載入最新照片並保留新增照片。先前的刪除與排序已取消，請重新檢查後按確定。');$('resolveConflict').hidden=true;
+ }catch(e){notice('editError',errorText(e));}finally{state.processing=false;$('resolveConflict').disabled=false;renderEditor();}
+}
+// One transfer at a time; confirmation publishes a frozen draft in the background.
+const uploadDrafts=new Map(),uploadJobs=new Map(),publishJobs=new Map();
+let uploadWorking=false;
+function backgroundProgress(){
+ const jobs=[...uploadJobs.values()].filter(j=>!j.edit.cancelled&&j.edit.photos.some(p=>p.id===j.photo.id)),pub=[...publishJobs.values()];
+ const failed=jobs.some(j=>j.state==='error')||pub.some(j=>j.state==='error');
+ const pending=jobs.filter(j=>j.state!=='done'&&!j.edit.cancelled).length;
+ const publishing=pub.filter(j=>j.state!=='done').length;
+ $('backgroundUpload').hidden=!jobs.length&&!pub.length;
+ const failure=[...jobs,...pub].find(j=>j.state==='error');
+ $('backgroundText').textContent=failed?'上傳未完成：'+(failure?.error||'請按重試。'):pending?'背景上傳：已完成 '+jobs.filter(j=>j.state==='done').length+' / '+jobs.length+' 張，可繼續操作。':publishing?'照片已上傳，正在背景確認儲存 '+publishing+' 件商品…':'照片上傳完成'+(pub.some(j=>j.state==='done')?'，已確認的商品已發布。':'，請按確定儲存才會發布。');
+ $('backgroundBar').max=Math.max(1,jobs.length+pub.length);$('backgroundBar').value=jobs.filter(j=>j.state==='done').length+pub.filter(j=>j.state==='done').length;
+ $('backgroundRetry').hidden=!failed;
+ if($('editorBackground')){
+  const edit=state.edit,photos=edit?edit.photos.filter(p=>!p.existing):[];
+  $('editorBackground').textContent=photos.length?'本商品：已暫存 '+photos.filter(p=>p.uploaded).length+' / '+photos.length+' 張；按確定儲存後發布。':'';
+ }
+}
+async function persistEdit(edit){
+ if(!edit||edit.cancelled)return;
+ uploadDrafts.set(edit.product.id,edit);
+ const ok=await dbAction('drafts','readwrite',s=>s.put({id:edit.product.id,edit:JSON.parse(JSON.stringify(edit)),time:Date.now()}));
+ edit.persisted=!!ok;
+ if(state.edit===edit)$('draftStatus').textContent=ok?'草稿已暫存，照片背景上傳中；按確定才會發布。':'瀏覽器無法保存草稿，請保持頁面開啟。';
+}
+function enqueuePhotos(edit){
+ if(!edit||edit.cancelled||!edit.dirty)return;
+ uploadDrafts.set(edit.product.id,edit);
+ for(const p of edit.photos)if(!p.existing&&!p.uploaded&&!uploadJobs.has(p.id))uploadJobs.set(p.id,{edit,photo:p,state:'pending'});
+ backgroundProgress();void pumpUploads();
+}
+async function pumpUploads(){
+ if(uploadWorking||!state.token||!navigator.onLine)return;
+ uploadWorking=true;
+ try{
+  for(;;){
+   const task=[...uploadJobs.values()].find(j=>j.state==='pending'&&!j.edit.cancelled&&j.edit.photos.some(p=>p.id===j.photo.id));
+   if(task){
+    task.state='uploading';backgroundProgress();
+    try{const p=task.photo;await rpc('apiUploadPhoto',{id:p.id,productId:task.edit.product.id,full:p.full,thumb:p.thumb},state.token);task.state='done';p.uploaded=true;if(!task.edit.cancelled)await persistEdit(task.edit);}
+    catch(e){task.state='error';task.error=errorText(e);if(/登入|密碼/.test(task.error)){state.token='';updateLogin();}backgroundProgress();break;}
+    backgroundProgress();continue;
+   }
+   const job=[...publishJobs.values()].find(j=>j.state==='pending'&&!j.edit.cancelled&&j.edit.photos.every(p=>p.existing||p.uploaded));
+   if(!job)break;
+   job.state='publishing';backgroundProgress();
+   try{
+    const edit=job.edit,result=await rpc('apiCommit',{productId:edit.product.id,revision:edit.revision,photoIds:edit.photos.map(p=>p.id),requestId:edit.requestId},state.token);
+    for(const p of edit.photos)if(p.thumb)await cacheThumb(p.id,p.thumb);
+    updateProduct({...edit.product,revision:result.revision,photos:result.photos});
+    await dbAction('drafts','readwrite',s=>s.delete(edit.product.id));uploadDrafts.delete(edit.product.id);job.state='done';edit.dirty=false;edit.queued=false;
+    if(!document.querySelector('dialog[open]'))applyFilters();toast(edit.product.name+'：照片已儲存。');
+   }catch(e){job.state='error';job.error=errorText(e);if(/CONFLICT/.test(job.error)){job.edit.queued=false;job.edit.conflict=true;publishJobs.delete(job.edit.product.id);await persistEdit(job.edit);toast('照片版本有衝突，請重新開啟該商品並核對草稿。');}else if(/登入|密碼/.test(job.error)){state.token='';updateLogin();}backgroundProgress();break;}
+   backgroundProgress();
+  }
+ }finally{uploadWorking=false;backgroundProgress();}
+}
+async function commitBackground(){
+ const edit=state.edit;if(!edit||state.processing)return;
+ if(!edit.dirty){await closeEditor();return;}
+ if(!state.token&&!await ensureLogin())return;
+ edit.queued=true;await persistEdit(edit);publishJobs.set(edit.product.id,{edit,state:'pending'});
+ enqueuePhotos(edit);hideDialog('editor');state.edit=null;setMode('browse');backgroundProgress();
+}
+async function resumeBackground(){
+ const saved=await dbAction('drafts','readonly',s=>s.getAll());
+ if(!Array.isArray(saved))return;
+ for(const row of saved){const edit=row?.edit;if(!edit||!Array.isArray(edit.photos)||!edit.product?.id)continue;edit.persisted=true;uploadDrafts.set(edit.product.id,edit);if(edit.queued)publishJobs.set(edit.product.id,{edit,state:'pending'});enqueuePhotos(edit);}
+}
+async function retryBackground(){
+ if(!state.token&&!await ensureLogin())return;
+ for(const job of uploadJobs.values())if(job.state==='error')job.state='pending';
+ for(const job of publishJobs.values())if(job.state==='error')job.state='pending';
+ backgroundProgress();void pumpUploads();
+}
+function confirmInPage(message){
+ return new Promise(resolve=>{
+  const d=document.createElement('dialog');d.className='inline-confirm';d.setAttribute('aria-label','確認操作');
+  const body=document.createElement('div');body.className='dialogbody';const title=document.createElement('h2');title.textContent='請確認';const text=document.createElement('p');text.textContent=message;body.append(title,text);
+  const foot=document.createElement('div');foot.className='dialogfoot';const cancel=document.createElement('button'),ok=document.createElement('button');cancel.textContent='取消';ok.textContent='確定';ok.className='primary';foot.append(cancel,ok);d.append(body,foot);document.body.append(d);
+  let settled=false;const finish=value=>{if(settled)return;settled=true;d.close();d.remove();resolve(value);};cancel.onclick=()=>finish(false);ok.onclick=()=>finish(true);d.oncancel=e=>{e.preventDefault();finish(false);};d.showModal();cancel.focus();
+ });
+}
+$('backgroundRetry').onclick=retryBackground;
+window.addEventListener('online',()=>void pumpUploads());
+
+$('browseTab').onclick=()=>setMode('browse');$('buildTab').onclick=()=>setMode('build');$('search').oninput=()=>{clearTimeout(searchTimer);searchTimer=setTimeout(applyFilters,160);};$('category').onchange=$('photoFilter').onchange=applyFilters;$('more').onclick=appendCards;$('refresh').onclick=()=>loadCatalog();
+$('autoPreload').onchange=()=>{storageSet('hg-auto-preload',String($('autoPreload').checked));if($('autoPreload').checked)startPreload();else state.stopPreload=true;};$('preloadButton').onclick=startPreload;$('stopPreload').onclick=()=>state.stopPreload=true;
+$('clearCache').onclick=async()=>{memory.clear();await dbAction('thumbs','readwrite',s=>s.clear());toast('已清除圖片快取，拍照草稿保留。');};
+$('loginButton').onclick=()=>ensureLogin(true);$('cancelLogin').onclick=()=>finishLogin(false);$('loginDialog').addEventListener('cancel',e=>{e.preventDefault();finishLogin(false);});
+$('closeViewer').onclick=()=>{viewSequence++;hideDialog('viewer');};$('viewer').addEventListener('cancel',e=>{e.preventDefault();viewSequence++;hideDialog('viewer');});
+$('editViewed').onclick=async()=>{const p=state.view;hideDialog('viewer');await openEditor(p);};$('closeEditor').onclick=closeEditor;$('editor').addEventListener('cancel',e=>{e.preventDefault();closeEditor();});
+$('captureButton').onclick=()=>$('cameraInput').click();$('albumButton').onclick=()=>$('albumInput').click();$('cameraInput').onchange=e=>addFiles([...e.target.files]);$('albumInput').onchange=e=>addFiles([...e.target.files]);$('save').onclick=commit;$('resolveConflict').onclick=resolveConflict;
+$('discard').onclick=async()=>{if(state.saving||state.processing)return;if(state.edit.dirty&&!await confirmInPage('捨棄這次尚未確認的新增、刪除與排序？已公開照片不會改變。'))return;state.edit.cancelled=true;uploadDrafts.delete(state.edit.product.id);await dbAction('drafts','readwrite',s=>s.delete(state.edit.product.id));state.edit=null;backgroundProgress();hideDialog('editor');toast('已捨棄草稿。');};
+$('sync').onclick=async()=>{if(!await ensureLogin())return;$('sync').disabled=true;try{const r=await rpc('apiSyncProducts',state.token);await loadCatalog();toast((r.unchanged?'備份沒有變動，共':r.local?'已讀取本地商品清單，共':'來源同步完成，共')+r.count+'項。');}catch(e){notice('pageError',errorText(e));if(/登入|密碼/.test(errorText(e))){state.token='';updateLogin();}}finally{$('sync').disabled=false;}};
+window.addEventListener('beforeunload',e=>{if(state.processing||[...uploadDrafts.values()].some(e=>e.dirty&&!e.persisted)||uploadWorking){e.preventDefault();e.returnValue='';}});
+function onlineStatus(){$('offline').hidden=navigator.onLine;}window.addEventListener('online',onlineStatus);window.addEventListener('offline',onlineStatus);
+if(typeof setInterval==='function')setInterval(()=>{if(state.loaded&&!document.hidden&&navigator.onLine&&!state.saving&&!state.processing&&!document.querySelector('dialog[open]'))loadCatalog(true);},180000);
+(async()=>{onlineStatus();try{state.token=sessionStorage.getItem('hg-token')||'';}catch(e){}updateLogin();await openDB();await trimCache();await loadCatalog();await resumeBackground();})();
+const layoutModes=['list','one','two','four'];
+const layoutNames={list:'清單',one:'每排一圖',two:'每排兩圖',four:'每排四圖'};
+let galleryLayout=storageGet('hg-layout')||'two';
+function setLayout(mode){
+ if(!layoutModes.includes(mode))mode='two';galleryLayout=mode;
+ $('grid').dataset.layout=mode;storageSet('hg-layout',mode);
+ const shapes={list:'<path d="M3 5h18M3 12h18M3 19h18"/>',one:'<rect x="4" y="4" width="16" height="16" rx="2"/>',two:'<rect x="2" y="5" width="8" height="14" rx="1"/><rect x="14" y="5" width="8" height="14" rx="1"/>',four:'<path d="M2 5h4v14H2zM8 5h4v14H8zM14 5h4v14h-4zM20 5h2v14h-2z"/>'};
+ $('layoutToggle').innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+shapes[mode]+'</svg>';
+ $('layoutToggle').setAttribute('aria-label','目前'+layoutNames[mode]+'，點選切換排列');$('layoutToggle').title=layoutNames[mode];
+}
+$('layoutToggle').onclick=()=>setLayout(layoutModes[(layoutModes.indexOf(galleryLayout)+1)%4]);setLayout(galleryLayout);
+$('archiveTab').onclick=()=>setMode('archive');
+async function changeArchive(p,archived){
+ if(state.saving||state.processing||!await ensureLogin())return;
+ if(!await confirmInPage(archived?'確認封存「'+p.name+'」？商品與照片會保留，可在封存商品恢復。':'確認恢復「'+p.name+'」？'))return;
+ state.processing=true;
+ try{const r=await rpc('apiArchiveProduct',{id:p.id,archived,revision:p.archiveRevision||0},state.token);Object.assign(p,r);updateProduct(p);if($('editor').open){await saveDraft();hideDialog('editor');state.edit=null;}if($('viewer').open)hideDialog('viewer');applyFilters();toast(archived?'商品已封存，未刪除照片。':'商品已恢復。');}
+ catch(e){toast(errorText(e));}finally{state.processing=false;}
+}
+$('archiveProduct').onclick=()=>state.edit&&changeArchive(state.edit.product,true);
+$('restoreProduct').onclick=()=>state.view&&changeArchive(state.view,false);
+
+let inventoryMode=false,inventorySnapshot=null,editInfo=null,editRequestId=null;
+$('yesterdayButton').onclick=async()=>{
+ if(inventoryMode){inventoryMode=false;$('yesterdayButton').textContent='昨日庫存';$('yesterdayButton').setAttribute('aria-pressed','false');setMode('browse');return;}
+ const button=$('yesterdayButton');button.disabled=true;
+ try{const result=await rpc('apiYesterdayInventory');inventorySnapshot=result;inventoryMode=true;button.textContent='返回找商品';button.setAttribute('aria-pressed','true');setMode('browse');}
+ catch(e){notice('pageError',errorText(e));}finally{button.disabled=false;}
+};
+function inventoryFor(id){return inventorySnapshot?.products.find(p=>p.id===id);}
+function inventoryProducts(){const items=state.products.slice(),known=new Set(items.map(p=>p.id));for(const row of inventorySnapshot?.products||[]){if(!known.has(row.id))items.push({id:row.id,name:'已不在目前商品名錄 · '+row.id,barcode:'',category:'',unit:'',photos:[],revision:0,archived:false});}return items;}
+function decorateInventory(){
+ if(!inventoryMode)return;
+ document.querySelector('.intro>div:first-child').style.display='block';$('sectionTitle').textContent='昨日庫存 · '+inventorySnapshot.date;
+ $('sectionHelp').textContent=inventorySnapshot.message+' 觀測時間 '+new Date(inventorySnapshot.observedAt).toLocaleTimeString('zh-TW');
+ const unknown=inventoryProducts().filter(p=>inventoryFor(p.id)?.total==null).length;if(unknown)$('sectionHelp').textContent+='；'+unknown+'項缺少完整倉庫數量，標示未觀測。';
+ $('grid').querySelectorAll('[data-product-id]').forEach(card=>{
+  if(card.querySelector('.stock-quantity'))return;
+  const p=inventoryFor(card.dataset.productId),amount=document.createElement('div'),caption=document.createElement('div');
+  amount.className='stock-quantity';amount.textContent=p?.total==null?'未觀測':p.total.toLocaleString();caption.className='stock-caption';caption.textContent='全倉庫合計';card.querySelector('.cardbody').append(amount,caption);
+ });
+}
+async function showProductMetadata(p){
+ editInfo=null;editRequestId=null;$('productEditForm').hidden=true;$('editMetadata').hidden=!inventoryMode||!state.token;
+ $('metadataStatus').textContent='';$('inventoryDetail').replaceChildren();
+ if(!inventoryMode)return;
+ const stock=inventoryFor(p.id),title=document.createElement('h3');title.textContent='昨日庫存 · '+inventorySnapshot.date;$('inventoryDetail').append(title);
+ const total=document.createElement('p');total.textContent='全倉庫合計：'+(stock?.total==null?'未觀測':stock.total);$('inventoryDetail').append(total);
+ const list=document.createElement('dl');list.className='details';for(const row of stock?.warehouses||[]){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent='倉庫 '+row.warehouse;dd.textContent=row.quantity==null?'未觀測':row.quantity;list.append(dt,dd);}$('inventoryDetail').append(list);
+}
+$('editMetadata').onclick=async()=>{
+ if(!state.view||!await ensureLogin())return;const id=state.view.id;
+ try{const info=await rpc('apiProductEditInfo',id,state.token);if(state.view?.id!==id||!$('viewer').open)return;editInfo=info;editRequestId=uid();
+  const f=$('productEditForm');f.elements.name.value=info.base.name;f.elements.unit.value=info.base.unit;
+  f.elements.category_no.replaceChildren(...info.categories.map(c=>new Option(c.name,c.id)));f.elements.category_no.value=info.base.category_no;f.hidden=false;$('editMetadata').hidden=true;
+ }catch(e){$('metadataStatus').textContent=errorText(e);}
+};
+$('productEditForm').onsubmit=async e=>{
+ e.preventDefault();if(!editInfo||!state.view)return;const f=e.currentTarget,button=f.querySelector('[type=submit]');button.disabled=true;
+ try{const changes=Object.fromEntries(['name','category_no','unit'].map(k=>[k,f.elements[k].value.trim()]));
+  const r=await rpc('apiQueueProductEdit',{id:state.view.id,requestId:editRequestId,base:editInfo.base,changes},state.token);
+  $('metadataStatus').textContent='已排入 '+r.due+' 的本機回寫佇列。主機與連線啟用後處理；庫存、商品編號、條碼不變。';f.hidden=true;
+ }catch(error){$('metadataStatus').textContent=errorText(error);}finally{button.disabled=false;}
+};
+
+</script>
+</body>
+</html>
