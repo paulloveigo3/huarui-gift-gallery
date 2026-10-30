@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta name="huarui-ui-version" content="1.7.1">
+<meta name="huarui-ui-version" content="1.7.3">
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -37,6 +37,13 @@ select, textarea {
 .name-with-copy{display:flex;align-items:center;gap:6px;min-width:0}
 .name-with-copy h2,.name-with-copy .name{flex:1;min-width:0;margin:0}
 .copy-name{display:inline-flex;align-items:center;justify-content:center;flex:0 0 44px;width:44px;height:44px;padding:9px;border:0;background:transparent;touch-action:manipulation}
+/* Price overlays preserve the existing card and image dimensions. */
+.cover>.badge{max-width:calc(50% - 12px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-sizing:border-box}
+.cover>.price-badge{left:10px;right:auto;background:#187561ed;color:white;font-weight:700;pointer-events:none}
+@media(max-width:620px){.cover>.badge{max-width:calc(50% - 9px)}.cover>.price-badge{left:7px}}
+.grid[data-layout="four"] .cover>.badge{max-width:calc(50% - 3px)}
+.grid[data-layout="four"] .cover>.price-badge{left:2px}
+.grid[data-layout="list"] .cover>.price-badge{display:block;left:4px;bottom:4px;max-width:calc(100% - 8px)}
 </style>
 </head>
 <body>
@@ -154,7 +161,8 @@ function appendCards(){
  slice.forEach(p=>{const card=document.createElement('button');card.className='card';card.dataset.productId=p.id;card.setAttribute('aria-label',p.name+'，'+p.photos.length+'張照片');
  const cover=document.createElement('div');cover.className='cover';
  const placeholder=document.createElement('div');placeholder.className='placeholder';const icon=document.createElement('b');icon.textContent=p.photos.length?'▧':'＋';placeholder.append(icon,document.createTextNode(p.photos.length?'載入照片':'待拍照'));cover.append(placeholder);
- const badge=document.createElement('span');badge.className='badge'+(p.photos.length?'':' empty');badge.textContent=p.photos.length?p.photos.length+' 張照片':'尚未拍照';cover.append(badge);
+ const price=document.createElement('span');price.className='badge price-badge';price.textContent=typeof p.price==='number'&&Number.isFinite(p.price)?(p.price<0?'−$':'$')+Math.abs(p.price).toLocaleString('zh-TW',{maximumFractionDigits:2}):'價格待同步';price.title=price.textContent;price.setAttribute('aria-label','售價：'+price.textContent);cover.append(price);
+ const badge=document.createElement('span');badge.className='badge'+(p.photos.length?'':' empty');badge.textContent=p.photos.length?p.photos.length+' 張照片':'尚未拍照';badge.title=badge.textContent;cover.append(badge);
  if(p.photos.length){cover.dataset.product=p.id;cover.dataset.photo=p.photos[0].id;cover.dataset.name=p.name;imageObserver.observe(cover);}
  const body=document.createElement('div');body.className='cardbody';[['category',p.category||'未分類'],['name',p.name],['sku',p.id]].forEach(([cls,text])=>{const el=document.createElement('div');el.className=cls;el.textContent=text;body.append(el);});attachNameCopy(body.querySelector('.name'),()=>p.name);card.append(cover,body);card.onclick=()=>state.mode==='build'?openEditor(p):openViewer(p);frag.append(card);
  });$('grid').append(frag);decorateInventory();state.shown+=slice.length;$('more').hidden=state.shown>=state.filtered.length;$('endText').textContent=state.shown&&state.shown>=state.filtered.length?'已顯示全部 '+state.shown+' 項':'';
@@ -681,3 +689,4 @@ attachNameCopy($('editName'),()=>$('editName').textContent);
 </script>
 </body>
 </html>
+
