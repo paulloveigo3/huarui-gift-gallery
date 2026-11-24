@@ -51,8 +51,8 @@ function populateShelves(){
    for(const c of slots.slice().sort((a,b)=>b.level-a.level||a.col-b.col)){
     const layer=document.createElement('h3'),items=document.createElement('div');
     layer.textContent=title(c).split(' · ').slice(1).join(' · ')||title(c);
-    items.className='shelfItems';
-    for(const [id,item] of Object.entries(demo.stock[c.id]||{})){
+    items.className='shelfItems';items.dataset.cell=c.id;
+    for(const [id,item] of Object.entries(demo.stock[c.id]||{}).sort((a,b)=>a[1].pos-b[1].pos)){
      const button=document.createElement('button');
      button.dataset.product=id;button.setAttribute('aria-label',productName(id)+'，'+title(c));
      const name=hiddenCardFields.has('names')?'':productName(id);
@@ -86,6 +86,47 @@ function showShelves(open){
  if(open)populateShelves();else draw();
 }
 listToggle.onclick=()=>showShelves(shelfPanel.hidden);
+// A quick tap uses the same info dialog as a billboard. Long holds use the same position ledger.
+let listPress=null,suppressListClick=0;
+shelfPanel.addEventListener('pointerdown',e=>{
+ const card=e.target.closest('button[data-product]');
+ if(!card||!e.isPrimary||listPress)return;
+ const row=card.closest('[data-cell]'),cell=cells.find(c=>c.id===row.dataset.cell),product=card.dataset.product;
+ const g=listPress={inList:true,id:e.pointerId,x:e.clientX,y:e.clientY,cell,product,width:Math.max(1,row.clientWidth),card};
+ function begin(){
+  if(listPress!==g||!demo.stock[cell.id]?.[product])return;
+  g.held=true;clearTimeout(idlePinTimer);g.startValue=cardPosition(cell,product);
+  moving={cell,product,value:g.startValue};press=g;shelfPanel.setPointerCapture(g.id);
+  card.classList.add('positioning');
+ }
+ if(moving?.cell===cell&&moving.product===product){g.resumed=true;begin()}
+ else{if(moving)pin();g.timer=setTimeout(begin,holdMs)}
+});
+shelfPanel.addEventListener('pointermove',e=>{
+ const g=listPress;if(!g||e.pointerId!==g.id)return;
+ const dx=e.clientX-g.x,dy=e.clientY-g.y;
+ if(Math.hypot(dx,dy)>5)g.drag=true;
+ if(!g.held){if(Math.hypot(dx,dy)>8){clearTimeout(g.timer);listPress=null}return}
+ const t=g.startValue+dx/g.width;
+ if(t<-.03||t>1.03||Math.abs(dy)>Math.max(40,g.card.offsetHeight)){
+  listPress=null;g.card.classList.remove('positioning');suppressListClick=performance.now()+600;requestRelocation();return;
+ }
+ moving.value=Math.max(.05,Math.min(.95,t));
+ g.card.style.setProperty('--position',Math.round(moving.value*100)+'%');
+});
+function endListPress(e){
+ const g=listPress;if(!g||e.pointerId!==g.id)return;
+ listPress=null;clearTimeout(g.timer);
+ if(!g.held)return;
+ press=null;g.card.classList.remove('positioning');suppressListClick=performance.now()+600;
+ if(e.type==='pointerup'){if(g.resumed&&!g.drag)pin();else schedulePin()}
+ else{moving=null;draw()}
+}
+for(const name of ['pointerup','pointercancel','lostpointercapture'])shelfPanel.addEventListener(name,endListPress);
+shelfPanel.addEventListener('click',e=>{
+ if(performance.now()<suppressListClick){e.stopImmediatePropagation();e.preventDefault();return}
+ if(moving){pin();e.stopImmediatePropagation();e.preventDefault()}
+},true);
 for(const button of document.querySelectorAll('[data-hide]'))button.addEventListener('click',()=>{listBook=null;populateShelves()});
 const updateShelfPanel=panel;
 panel=function(){updateShelfPanel();populateShelves()};
@@ -139,7 +180,7 @@ function takeEvent(e){if(e.cancelable)e.preventDefault();e.stopImmediatePropagat
 function points(){return [...contacts.values()].slice(0,2)}
 function touchStart(e){
  if(e.pointerType!=='touch'||!document.body.classList.contains('compact')||!view.contains(e.target))return;
- takeEvent(e);view.setPointerCapture(e.pointerId);
+ clearTimeout(idlePinTimer);takeEvent(e);view.setPointerCapture(e.pointerId);
  const point={x:e.clientX,y:e.clientY};contacts.set(e.pointerId,point);
  if(contacts.size>1){
   cancelTap();press=null;moving=null;foot.textContent=hint;scheduleTouchDraw();return;
@@ -151,7 +192,7 @@ function touchStart(e){
   press={id:e.pointerId,cell,product,x:point.x,y:point.y,startValue:cardPosition(cell,product)};
   if(!moving)longTimer=setTimeout(()=>{
    if(!candidate||contacts.size!==1)return;
-   candidate.held=true;moving={cell,product,value:press.startValue};choose(cell);foot.textContent='左右移動商品，再輕點固定';
+   candidate.held=true;moving={cell,product,value:press.startValue};choose(cell);foot.textContent='放開 1.5 秒自動固定，或輕點立即固定';
   },holdMs);
  }
 }
@@ -175,6 +216,7 @@ function touchEnd(e){
  takeEvent(e);contacts.delete(e.pointerId);skipClickUntil=performance.now()+600;
  const tap=candidate;cancelTap();press=null;
  if(e.type!=='pointerup'){moving=null;foot.textContent=hint;scheduleTouchDraw();return}
+ if(moving&&tap&&!contacts.size){if(tap.wasMoving&&!tap.drag)pin();else schedulePin();return}
  if(!tap||tap.drag||tap.held||contacts.size)return;
  if(tap.wasMoving){pin();return}
  if(tap.product){const c=cells.find(c=>c.id===tap.cell);if(demo.stock[c.id]?.[tap.product])showProduct(c,tap.product);return}
