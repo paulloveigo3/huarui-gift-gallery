@@ -41,12 +41,21 @@ button.rackLabel{pointer-events:auto;border:0;line-height:1.3}button.rackLabel:h
 .viewIcon[data-hide][aria-pressed=true]::after{content:'';position:absolute;width:24px;height:2px;background:currentColor;transform:rotate(-45deg);box-shadow:0 1px #35665b}
 .viewIcon[data-hide]:disabled{opacity:.44;cursor:default}
 .compact .viewControls{gap:1px}
-</style><header><div><small>倉儲管理 ／ 本機示範</small><h1>3D 倉儲空間</h1></div><div class="devices"><button id="desktop" aria-label="電腦版" aria-pressed="true"><i class="monitor"></i>電腦</button><button id="mobile" aria-label="手機版" aria-pressed="false"><i class="phone"></i>手機</button></div></header>
+</style><style>
+.compact #frame{max-width:none}.compact #minus,.compact #plus{display:none}
+#shelfPanel{overflow-y:auto;overscroll-behavior:contain;min-height:0;flex:1;padding:8px;background:#eef2ec;touch-action:pan-y}
+#shelfPanel details{background:white;border:1px solid #c0cec6;border-radius:8px;margin:0 0 8px;padding:8px}
+#shelfPanel summary{padding:8px;cursor:pointer}#shelfPanel h3{font-size:14px;margin:12px 0 4px}
+.shelfItems{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:5px}.shelfItems button{overflow-wrap:anywhere}
+.shelfItems img{display:block;width:100%;height:64px;object-fit:contain;margin-bottom:4px}
+.compact #view{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.compact .bill:not(.dim){z-index:3}.compact #locationAction{z-index:4}
+</style><style>.quantityRow{display:flex;align-items:center;gap:6px;margin:3px 0 9px}.quantityRow input{flex:1;min-width:0;margin:0}.quantityRow button{white-space:nowrap;min-height:38px}</style><header><div><small>倉儲管理 ／ 本機示範</small><h1>3D 倉儲空間</h1></div><div class="devices"><button id="desktop" aria-label="電腦版" aria-pressed="true"><i class="monitor"></i>電腦</button><button id="mobile" aria-label="手機版" aria-pressed="false"><i class="phone"></i>手機</button></div></header>
 <div id="frame"><section id="lobby"><div class="groups"><button id="gift" aria-pressed="true">禮品</button><button id="beach" aria-pressed="false">海灘商店</button></div><div id="cards"></div></section>
 <main hidden><section class="stage"><div class="toolbar"><div class="warehouseNav"><button id="back">‹ 選倉</button><strong>C 倉</strong></div><div class="viewControls" role="group" aria-label="視角與縮放"><button id="iso" class="viewIcon" aria-label="立體視角" title="立體視角"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M12 2.5 21 7.5v9L12 22l-9-5.5v-9z M3 7.5l9 5 9-5 M12 12.5V22"/></svg></button><button id="top" class="viewIcon" aria-label="俯視視角" title="俯視視角"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M3 4h18v16H3z M7 8h4v8H7z M15 8h2m-2 4h2m-2 4h2"/></svg></button><button type="button" id="cut" class="viewIcon" aria-label="剖開後牆" title="剖開後牆" aria-pressed="false"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M3 8l8-5 10 5v10l-9 4-9-5z M3 8l9 5 9-5 M12 13v9 M7 6v5m5-8v5m5-3v5"/></svg></button><button type="button" id="hideNames" class="viewIcon" aria-label="關閉商品名稱" title="關閉商品名稱" aria-pressed="false" data-hide="names"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M3 4h10l8 8-9 9-9-9z M7 8h.01 M10 14l5-5"/></svg></button><button type="button" id="hideLocations" class="viewIcon" aria-label="關閉商品卡架位資訊" title="關閉商品卡架位資訊" aria-pressed="false" data-hide="locations"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0z M14.5 10a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/></svg></button><button type="button" id="hideImages" class="viewIcon" aria-label="關閉商品圖片" title="關閉商品圖片" aria-pressed="false" data-hide="images"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M3 4h18v16H3z M3 17l6-6 4 4 3-3 5 5 M16 8h.01"/></svg></button><button id="minus" class="viewIcon" aria-label="縮小" title="縮小"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button><button id="plus" class="viewIcon" aria-label="放大" title="放大"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M5 12h14 M12 5v14"/></svg></button></div></div><div id="view"><canvas aria-label="拖曳旋轉，點選架位"></canvas><div id="tags"></div><button type="button" id="locationAction" class="alertDot" hidden>!</button></div><footer>拖曳旋轉 · 滾輪或雙指縮放 · 點選層板入庫</footer></section>
 <aside><nav id="modes" aria-label="庫存操作"><button data-mode="move">倉庫轉移</button><button data-mode="receive">入庫</button><button data-mode="issue">出庫</button></nav>
 <label>架位<select id="slot"></select></label><div id="shelfCards"></div>
-<section id="order" hidden><strong id="chosen"></strong><label id="destField">目的架位<select id="dest"></select></label><label>數量<input id="qty" type="number" inputmode="numeric" min="1" max="999999" step="1" value="1"></label><button id="apply" class="action"></button></section><details><summary>架櫃名稱</summary><label>顯示名稱<input id="rackName" maxlength="24"></label><button id="rename">儲存名稱</button></details><p id="feedback" role="status"></p></aside></main></div>
+<section id="order" hidden><strong id="chosen"></strong><label id="destField">目的架位<select id="dest"></select></label><label for="qty">數量</label><div class="quantityRow"><input id="qty" type="number" inputmode="numeric" min="1" max="999999" step="1" value="1"><button id="allQty" type="button" hidden>全部</button></div><button id="apply" class="action"></button></section><details><summary>架櫃名稱</summary><label>顯示名稱<input id="rackName" maxlength="24"></label><button id="rename">儲存名稱</button></details><p id="feedback" role="status"></p></aside></main></div>
 <dialog id="actions"><form method="dialog"><button>關閉 ×</button></form></dialog>
 <dialog id="itemInfo"><form method="dialog"><button>關閉 ×</button></form><img id="infoPhoto" alt="魟魚背包原始商品照片"><h2 id="itemName"></h2><p id="itemDetail"></p></dialog>
 <dialog id="finder"><form method="dialog"><button>關閉 ×</button></form><label>搜尋商品<input id="query" type="search" placeholder="商品名稱、品號或條碼" autocomplete="off"></label><button id="scan">掃描條碼／QR Code</button><video id="camera" hidden muted playsinline></video><p id="scanMsg" role="status"></p><div id="matches"></div></dialog>
@@ -133,14 +142,15 @@ function directionTag(title,x,z,cls){
  tag.className='direction '+cls;tag.textContent=title;
  tag.style.left=(1+px)*50+'%';tag.style.top=(1-py)*50+'%';$('tags').append(tag);
 }
-function draw(){W=canvas.clientWidth;H=canvas.clientHeight;if(!W||!H)return;let ratio=Math.min(devicePixelRatio,2);canvas.width=Math.round(W*ratio);canvas.height=Math.round(H*ratio);let {w,d,axis}=m.room;scale=Math.min(W/(Math.abs(w*Math.cos(yaw))+Math.abs((m===layouts.C?d+w*.195:d)*Math.sin(yaw))+60),H/(Math.sin(pitch)*(Math.abs(w*Math.sin(yaw))+Math.abs((m===layouts.C?d+w*.195:d)*Math.cos(yaw)))+Math.cos(pitch)*300+120))*.88*zoom;
+function viewScale(w,d){return Math.min(W/(Math.abs(w*Math.cos(yaw))+Math.abs((m===layouts.C?d+w*.195:d)*Math.sin(yaw))+60),H/(Math.sin(pitch)*(Math.abs(w*Math.sin(yaw))+Math.abs((m===layouts.C?d+w*.195:d)*Math.cos(yaw)))+Math.cos(pitch)*300+120))*.88*zoom}
+function draw(){W=canvas.clientWidth;H=canvas.clientHeight;if(!W||!H)return;let ratio=Math.min(devicePixelRatio,2);canvas.width=Math.round(W*ratio);canvas.height=Math.round(H*ratio);let {w,d,axis}=m.room;scale=viewScale(w,d);
 vertices=[];faces=[];box(0,-5,0,w,5,d,'floor');if(m!==layouts.D)for(let x=0;x<w;x+=50)box(x,.05,0,.6,.1,d,'wall');if(m!==layouts.D)for(let z=0;z<d;z+=50)box(0,.05,z,w,.1,.6,'wall');if(m===layouts.A){drawEntrance(w)}else if(m===layouts.D){drawDDoor()}else if(m===layouts.C){drawRoomEnds(w,d);
 const rails=new Set();for(const o of m.racks){const base=axis==='z'?o.x:o.z,span=axis==='z'?o.w:o.d;for(const p of [.12,.88])rails.add(Math.round(base+span*p))}for(let p of rails){axis==='z'?box(p,0,10,3,1,d-20,'rail'):box(10,0,p,w-20,1,3,'rail')}
 }for(const o of m.fixtures)paintUnit(o,m===layouts.D?terminal:fixture);for(const o of m.racks)paintUnit(o,rack);decorate();
 renderScene(ratio);
 const tags=$('tags');tags.replaceChildren();billboards();}
 function magnify(f){if(m===layouts.A)zoomTarget=anchor(active,.5);zoom=Math.max(.4,Math.min(4,zoom*f));draw()}
-$('plus').onclick=()=>magnify(1.2);$('minus').onclick=()=>magnify(1/1.2);$('iso').onclick=()=>{resetAngle();zoom=1;draw()};$('top').onclick=()=>{yaw=0;pitch=Math.PI/2;zoom=1;draw()};
+$('plus').onclick=()=>magnify(1.2);$('minus').onclick=()=>magnify(1/1.2);$('iso').onclick=()=>{resetAngle();zoom=1;draw()};$('top').onclick=()=>{pan.fill(0);yaw=0;pitch=Math.PI/2;zoom=1;draw()};
 const pointers=new Map();function gap(){let [a,b]=pointers.values();return Math.hypot(a.x-b.x,a.y-b.y)}
 canvas.onpointerdown=e=>{canvas.setPointerCapture(e.pointerId);pointers.set(e.pointerId,{x:e.clientX,y:e.clientY})};canvas.onpointermove=e=>{let old=pointers.get(e.pointerId);if(!old)return;let prev=pointers.size===2?gap():0;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(prev>0)magnify(gap()/prev);else{yaw+=(e.clientX-old.x)*.009;pitch=Math.max(.08,Math.min(Math.PI/2,pitch+(e.clientY-old.y)*.008));draw()}};canvas.onlostpointercapture=e=>pointers.delete(e.pointerId);canvas.onwheel=e=>{e.preventDefault();magnify(Math.exp(-.001*e.deltaY))};
 if(!window.frameElement||!parent.mobileWarehouse){document.body.textContent='請從華瑞商品圖庫登入後開啟倉庫';throw Error('需要圖庫登入')}
@@ -253,14 +263,18 @@ async function findSources(id){
     const name=book.names[rack]||unit?.name||rack.replace(/^virtual-/,'');
     const level=unit?.cols&&layer==='L3'?'櫃頂':layer==='L0'?'地板':layer.slice(1)+' 層';
     const label=warehouse+'倉 · '+name+' · '+level+(column?' · 第 '+column.slice(1)+' 格':'')+'（'+items[id].qty+' 件）';
-    sourceOptions.push({warehouse,cell,revision});sourceSelect.add(new Option(label,sourceOptions.length-1));
+    sourceOptions.push({warehouse,cell,revision,qty:items[id].qty});sourceSelect.add(new Option(label,sourceOptions.length-1));
    }
   }
   if(sourceOptions.length>1){sourceSelect.add(new Option('請選擇來源架位',''),0);sourceSelect.value=''}
   $('feedback').textContent=sourceOptions.length?'':'其他架位沒有登記這項商品，無法轉移。';renderOrder();
  }catch(e){if(token===lookup&&chosen===id&&pulling){$('feedback').textContent=e.message;renderOrder()}}
 }
-sourceSelect.onchange=()=>renderOrder();
+sourceSelect.onchange=()=>{$('qty').value=1;renderOrder()};
+function availableToMove(){
+ return pulling?sourceOptions[sourceSelect.value]?.qty:demo.stock[active.id]?.[chosen]?.qty;
+}
+$('allQty').onclick=()=>{const qty=availableToMove();if(qty>0)$('qty').value=qty};
 function renderOrder(){
  const contents=demo.stock[active.id]||{},list=$('shelfCards');
  list.replaceChildren();
@@ -277,6 +291,7 @@ function renderOrder(){
  const add=document.createElement('button');add.className='addCard';add.textContent='＋';add.setAttribute('aria-label','掃描或搜尋商品');add.onclick=openFinder;list.append(add);
  if(mode!=='receive'&&!pulling&&!contents[chosen])chosen=null;
  for(const b of $('modes').children)b.setAttribute('aria-pressed',b.dataset.mode===mode);
+ $('allQty').hidden=mode!=='move';$('allQty').disabled=submitting||!availableToMove();
  $('order').hidden=!chosen;$('chosen').textContent=chosen?productName(chosen)+' · '+chosen:'';
  sourceField.hidden=!pulling||!chosen;
  $('destField').hidden=mode!=='move'||pulling;$('apply').textContent=operations[mode];
@@ -495,8 +510,10 @@ function paintUnit(o,paint){
  paint(o);
  renderRack=null;muted=false;
 }
+const pan=[0,0,0];
 function cameraCenter(){
  const t=Math.min(1,Math.max(0,zoom-1)),c=active,mid=[m.room.w/2,m===layouts.D?65:115,(m.room.d-(m===layouts.C?m.room.w*.195:0))/2];
+ if(document.body.classList.contains('compact'))return mid.map((v,i)=>v+pan[i]);
  const target=m===layouts.A?(zoomTarget||mid):world(c.o,c.x+c.w/2,c.y+c.h/2,c.z+c.d/2);
  return target.map((v,i)=>mid[i]+(v-mid[i])*t);
 }
@@ -574,7 +591,7 @@ function billboards(){
  const contents=Object.entries(demo.stock[c.id]);
  if(contents.length>8){
   const [x,y]=project(...anchor(c,.5)),group=document.createElement('button');group.className='rackLabel';group.style.left=(1+x)*50+'%';group.style.top=(1-y)*50+'%';
-  group.textContent=contents.length+' 種商品';group.onclick=()=>choose(c);$('tags').append(group);continue;
+  group.dataset.group=c.id;group.textContent=contents.length+' 種商品';group.onclick=()=>choose(c);$('tags').append(group);continue;
  }
  for(const [id,item] of contents){
   const [x,y]=project(...anchor(c,cardPosition(c,id))),el=document.createElement('button'),img=new Image(),name=document.createElement('b');
@@ -631,8 +648,9 @@ canvas.addEventListener('pointermove',e=>{
 canvas.addEventListener('pointerup',e=>{if(tap){const c=pickCell(e);if(c)choose(c);else{inspectRack(null);focused=false;hover=null;draw()}}tap=null});
 canvas.addEventListener('pointercancel',()=>{tap=null});
 canvas.addEventListener('pointerleave',()=>{hover=null;draw()});
-function resetAngle(){yaw=m===layouts.D?.47:m===layouts.A?.22:1.02;pitch=m===layouts.D?.78:m===layouts.A?1.46:.54}
+function resetAngle(){pan.fill(0);yaw=m===layouts.D?.47:m===layouts.A?.22:1.02;pitch=m===layouts.D?.78:m===layouts.A?1.46:.54}
 function enterWarehouse(id){
+ pan.fill(0);
  cancelAnimationFrame(slideFrame);slideFrame=0;rackOffsets.clear();selectedRail=null;zoomTarget=null;
  m=layouts[id];demoKey='hr-warehouse-demo-'+id.toLowerCase()+'-v2';loadCells();demo=readDemo();
  cardLimit=40;if(systemMode){requestedWh=id;systemRevision=0;loadSystem(id)}
@@ -659,7 +677,7 @@ function showProduct(c,id){
  $('itemInfo').showModal();
 }
 const foot=document.querySelector('footer');
-const hint='點架位選取 · 點商品看資訊 · 長按 0.8 秒移動';
+const hint='單指平移 · 雙指平移、縮放或旋轉 · 長按商品可移位';
 foot.textContent=hint;
 async function pin(){
  const placement=moving,key=demoKey;if(!placement||placement.saving)return;
@@ -753,6 +771,6 @@ function setDevice(id){
  document.body.classList.toggle('compact',id==='mobile');for(const b of ['mobile','desktop'])$(b).setAttribute('aria-pressed',b===id);draw();
 }
 for(const id of ['mobile','desktop'])$(id).onclick=()=>setDevice(id);
-setDevice(matchMedia('(max-width:650px)').matches?'mobile':'desktop');
+setDevice(matchMedia('(max-width:650px), (pointer:coarse)').matches?'mobile':'desktop');
 listWarehouses(true);new ResizeObserver(draw).observe(canvas);
-</script></html>
+</script><script src="warehouse-touch.js"></script></html>
