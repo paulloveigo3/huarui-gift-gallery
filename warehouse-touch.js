@@ -26,7 +26,7 @@ function refreshCard(button){
  if(hiddenCardFields.has('images'))return;
  const url=photoFor(button.dataset.product);
  if(!url||button.querySelector('img'))return;
- const img=new Image();img.alt='';img.src=url;button.prepend(img);
+ const img=new Image();img.draggable=false;img.alt='';img.src=url;button.prepend(img);
 }
 const cardObserver=new IntersectionObserver(entries=>{
  for(const entry of entries){
@@ -96,7 +96,7 @@ shelfPanel.addEventListener('pointerdown',e=>{
  function begin(){
   if(listPress!==g||!demo.stock[cell.id]?.[product])return;
   g.held=true;clearTimeout(idlePinTimer);g.startValue=cardPosition(cell,product);
-  moving={cell,product,value:g.startValue};press=g;shelfPanel.setPointerCapture(g.id);
+  moving={cell,product,value:g.startValue,card};press=g;shelfPanel.setPointerCapture(g.id);
   card.classList.add('positioning');
  }
  if(moving?.cell===cell&&moving.product===product){g.resumed=true;begin()}
@@ -118,11 +118,11 @@ function endListPress(e){
  const g=listPress;if(!g||e.pointerId!==g.id)return;
  listPress=null;clearTimeout(g.timer);
  if(!g.held)return;
- press=null;g.card.classList.remove('positioning');suppressListClick=performance.now()+600;
+ press=null;suppressListClick=performance.now()+600;
  if(e.type==='pointerup'){if(g.resumed&&!g.drag)pin();else schedulePin()}
- else{moving=null;draw()}
+ else{g.card.classList.remove('positioning');moving=null;draw()}
 }
-for(const name of ['pointerup','pointercancel','lostpointercapture'])shelfPanel.addEventListener(name,endListPress);
+for(const name of ['pointerup','pointercancel'])window.addEventListener(name,endListPress,true);
 shelfPanel.addEventListener('click',e=>{
  if(performance.now()<suppressListClick){e.stopImmediatePropagation();e.preventDefault();return}
  if(moving){pin();e.stopImmediatePropagation();e.preventDefault()}
@@ -225,9 +225,19 @@ function touchEnd(e){
  const c=rack?(cells.find(c=>c.o.id===rack&&c.level===active.level)||cells.find(c=>c.o.id===rack)):group?cells.find(c=>c.id===group):pickCell(e);
  if(c)choose(c);else{inspectRack(null);focused=false;hover=null;draw()}
 }
-for(const [event,handler] of [['pointerdown',touchStart],['pointermove',touchMove],['pointerup',touchEnd],['pointercancel',touchEnd],['lostpointercapture',touchEnd]]){
+for(const [event,handler] of [['pointerdown',touchStart],['pointermove',touchMove],['pointerup',touchEnd],['pointercancel',touchEnd]]){
  window.addEventListener(event,handler,{capture:true,passive:false});
 }
+// Capture can change when a projected image is redrawn. End the hold on physical
+// release, including Safari's final TouchEvent when no captured pointerup arrives.
+window.addEventListener('touchend',e=>{
+ if(e.touches.length)return;
+ if(listPress?.held)endListPress({type:'pointerup',pointerId:listPress.id});
+ if(contacts.size&&moving){
+  contacts.clear();cancelTap();press=null;skipClickUntil=performance.now()+600;schedulePin();
+ }
+},{capture:true,passive:true});
+for(const surface of [view,shelfPanel])surface.addEventListener('dragstart',e=>e.preventDefault());
 view.addEventListener('click',e=>{if(e.detail&&performance.now()<skipClickUntil)takeEvent(e)},true);
 for(const event of ['gesturestart','gesturechange','gestureend'])view.addEventListener(event,e=>e.preventDefault(),{passive:false});
 foot.textContent='單指平移 · 雙指平移、縮放或旋轉 · 點商品查看';
