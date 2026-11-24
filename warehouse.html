@@ -50,9 +50,29 @@ button.rackLabel{pointer-events:auto;border:0;line-height:1.3}button.rackLabel:h
 .shelfItems img{display:block;width:100%;height:64px;object-fit:contain;margin-bottom:4px}
 .compact #view{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .compact .bill:not(.dim){z-index:3}.compact #locationAction{z-index:4}
-</style><style>.quantityRow{display:flex;align-items:center;gap:6px;margin:3px 0 9px}.quantityRow input{flex:1;min-width:0;margin:0}.quantityRow button{white-space:nowrap;min-height:38px}</style><header><div><small>倉儲管理 ／ 本機示範</small><h1>3D 倉儲空間</h1></div><div class="devices"><button id="desktop" aria-label="電腦版" aria-pressed="true"><i class="monitor"></i>電腦</button><button id="mobile" aria-label="手機版" aria-pressed="false"><i class="phone"></i>手機</button></div></header>
+</style><style>.quantityRow{display:flex;align-items:center;gap:6px;margin:3px 0 9px}.quantityRow input{flex:1;min-width:0;margin:0}.quantityRow button{white-space:nowrap;min-height:38px}</style><style>
+.layerHeading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
+.layerHeading h3{min-width:0;overflow-wrap:anywhere}.addLayerItem{flex:none;min-height:44px;padding:6px 10px}
+@media(max-width:650px),(pointer:coarse){
+ .compact dialog[open]{position:fixed;inset:0;box-sizing:border-box;width:100%;height:100%;min-width:0;max-width:100%;max-height:100%;margin:0;border:0;border-radius:0;background:#fff;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+ .compact dialog::backdrop{background:#fff}
+ .compact dialog :is(input,select,textarea){font-size:16px;min-width:0;max-width:100%}
+ .compact dialog :is(button,label,strong,p){white-space:normal;overflow-wrap:anywhere;min-width:0}
+ .compact dialog :is(img,video){max-width:100%;object-fit:contain}
+ .compact #itemInfo img{max-width:100%;height:auto;max-height:52dvh}
+ .compact dialog :is(#matches,#shelfCards){max-height:none;overflow:visible}
+ .compact #finder[open]{width:100%}
+}
+</style><style>
+.cameraScene{display:flex;align-items:stretch;min-width:0}.cameraScene:has(#view[hidden]){display:none}
+.cameraScene>#view{flex:1;min-width:0}.compact .cameraScene{flex:1;min-height:0}
+.tiltRail{display:grid;place-items:center;flex:0 0 36px;background:#edf3ef;border-left:1px solid #cad9d0}
+#cameraTilt{writing-mode:vertical-lr;direction:rtl;width:34px;height:min(190px,70%);min-height:70px;margin:0;padding:0;accent-color:#226756;touch-action:none}
+</style><style>
+.stockGroup img{display:block;max-width:55px;max-height:65px}.bill:empty::before,.stockGroup:empty::before,.shelfItems button:empty::before{content:'';display:block;width:32px;height:32px;background:center/24px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23567a70' stroke-width='1.5'%3E%3Crect x='2' y='3' width='20' height='18' rx='3'/%3E%3Cpath d='m3 17 6-7 4 5 3-3 5 6'/%3E%3C/svg%3E")}
+</style><header><div><small>倉儲管理 ／ 本機示範</small><h1>3D 倉儲空間</h1></div><div class="devices"><button id="desktop" aria-label="電腦版" aria-pressed="true"><i class="monitor"></i>電腦</button><button id="mobile" aria-label="手機版" aria-pressed="false"><i class="phone"></i>手機</button></div></header>
 <div id="frame"><section id="lobby"><div class="groups"><button id="gift" aria-pressed="true">禮品</button><button id="beach" aria-pressed="false">海灘商店</button></div><div id="cards"></div></section>
-<main hidden><section class="stage"><div class="toolbar"><div class="warehouseNav"><button id="back">‹ 選倉</button><strong>C 倉</strong></div><div class="viewControls" role="group" aria-label="視角與縮放"><button id="iso" class="viewIcon" aria-label="立體視角" title="立體視角"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M12 2.5 21 7.5v9L12 22l-9-5.5v-9z M3 7.5l9 5 9-5 M12 12.5V22"/></svg></button><button id="top" class="viewIcon" aria-label="俯視視角" title="俯視視角"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M3 4h18v16H3z M7 8h4v8H7z M15 8h2m-2 4h2m-2 4h2"/></svg></button><button type="button" id="cut" class="viewIcon" aria-label="剖開後牆" title="剖開後牆" aria-pressed="false"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M3 8l8-5 10 5v10l-9 4-9-5z M3 8l9 5 9-5 M12 13v9 M7 6v5m5-8v5m5-3v5"/></svg></button><button type="button" id="hideNames" class="viewIcon" aria-label="關閉商品名稱" title="關閉商品名稱" aria-pressed="false" data-hide="names"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M3 4h10l8 8-9 9-9-9z M7 8h.01 M10 14l5-5"/></svg></button><button type="button" id="hideLocations" class="viewIcon" aria-label="關閉商品卡架位資訊" title="關閉商品卡架位資訊" aria-pressed="false" data-hide="locations"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0z M14.5 10a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/></svg></button><button type="button" id="hideImages" class="viewIcon" aria-label="關閉商品圖片" title="關閉商品圖片" aria-pressed="false" data-hide="images"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M3 4h18v16H3z M3 17l6-6 4 4 3-3 5 5 M16 8h.01"/></svg></button><button id="minus" class="viewIcon" aria-label="縮小" title="縮小"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button><button id="plus" class="viewIcon" aria-label="放大" title="放大"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M5 12h14 M12 5v14"/></svg></button></div></div><div id="view"><canvas aria-label="拖曳旋轉，點選架位"></canvas><div id="tags"></div><button type="button" id="locationAction" class="alertDot" hidden>!</button></div><footer>拖曳旋轉 · 滾輪或雙指縮放 · 點選層板入庫</footer></section>
+<main hidden><section class="stage"><div class="toolbar"><div class="warehouseNav"><button id="back">‹ 選倉</button><strong>C 倉</strong></div><div class="viewControls" role="group" aria-label="視角與縮放"><button id="iso" class="viewIcon" aria-label="立體視角" title="立體視角"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M12 2.5 21 7.5v9L12 22l-9-5.5v-9z M3 7.5l9 5 9-5 M12 12.5V22"/></svg></button><button id="top" class="viewIcon" aria-label="俯視視角" title="俯視視角"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M3 4h18v16H3z M7 8h4v8H7z M15 8h2m-2 4h2m-2 4h2"/></svg></button><button type="button" id="cut" class="viewIcon" aria-label="剖開後牆" title="剖開後牆" aria-pressed="false"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M3 8l8-5 10 5v10l-9 4-9-5z M3 8l9 5 9-5 M12 13v9 M7 6v5m5-8v5m5-3v5"/></svg></button><button type="button" id="hideNames" class="viewIcon" aria-label="關閉商品名稱" title="關閉商品名稱" aria-pressed="false" data-hide="names"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M3 4h10l8 8-9 9-9-9z M7 8h.01 M10 14l5-5"/></svg></button><button type="button" id="hideLocations" class="viewIcon" aria-label="關閉商品明細（品號、架位與件數）" title="關閉商品明細（品號、架位與件數）" aria-pressed="false" data-hide="locations"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0z M14.5 10a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/></svg></button><button type="button" id="hideImages" class="viewIcon" aria-label="關閉商品圖片" title="關閉商品圖片" aria-pressed="false" data-hide="images"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M3 4h18v16H3z M3 17l6-6 4 4 3-3 5 5 M16 8h.01"/></svg></button><button id="minus" class="viewIcon" aria-label="縮小" title="縮小"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button><button id="plus" class="viewIcon" aria-label="放大" title="放大"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M5 12h14 M12 5v14"/></svg></button></div></div><div id="view"><canvas aria-label="拖曳旋轉，點選架位"></canvas><div id="tags"></div><button type="button" id="locationAction" class="alertDot" hidden>!</button></div><footer>拖曳旋轉 · 滾輪或雙指縮放 · 點選層板入庫</footer></section>
 <aside><nav id="modes" aria-label="庫存操作"><button data-mode="move">倉庫轉移</button><button data-mode="receive">入庫</button><button data-mode="issue">出庫</button></nav>
 <label>架位<select id="slot"></select></label><div id="shelfCards"></div>
 <section id="order" hidden><strong id="chosen"></strong><label id="destField">目的架位<select id="dest"></select></label><label for="qty">數量</label><div class="quantityRow"><input id="qty" type="number" inputmode="numeric" min="1" max="999999" step="1" value="1"><button id="allQty" type="button" hidden>全部</button></div><button id="apply" class="action"></button></section><details><summary>架櫃名稱</summary><label>顯示名稱<input id="rackName" maxlength="24"></label><button id="rename">儲存名稱</button></details><p id="feedback" role="status"></p></aside></main></div>
@@ -297,11 +317,11 @@ function renderOrder(){
  $('destField').hidden=mode!=='move'||pulling;$('apply').textContent=operations[mode];
  $('apply').disabled=submitting||(pulling&&(!sourceOptions.length||sourceSelect.value===''));
 }
-function selectProduct(id){
+function selectProduct(id,focusQuantity=true){
  chosen=id;$('qty').value=1;$('feedback').textContent='';renderOrder();
  if($('finder').open)$('finder').close();
  if(pulling)findSources(id);
- $('qty').focus();$('qty').select();
+ if(focusQuantity){$('qty').focus({preventScroll:true});$('qty').select()}
 }
 for(const b of $('modes').children)b.onclick=()=>{pulling=false;mode=b.dataset.mode;chosen=null;$('feedback').textContent='';renderOrder()};
 function freePosition(contents){
@@ -364,7 +384,7 @@ function searchItems(raw,exact=false){
   (exact?(q===clean(id)||(bar&&codeKey(bar)===key)):[name,id,bar].some(s=>clean(s).includes(q))));
 }
 function scannedProduct(id){
- selectProduct(id);
+ selectProduct(id,false);
  mobileHost.scanned(id).catch(e=>{$('feedback').textContent='無法核對商品照片，請重新掃描。'+e.message});
 }
 function results(rows,scanned=false){
@@ -375,7 +395,7 @@ function results(rows,scanned=false){
 }
 function openFinder(){
  pulling=systemMode&&mode==='move';chosen=null;renderOrder();
- $('query').value='';results(searchItems(''));$('finder').showModal();$('query').focus();
+ $('query').value='';results(searchItems(''));$('finder').showModal();if(!document.body.classList.contains('compact'))$('query').focus();
 }
 function acceptCode(raw){
  stopCamera();$('query').value=raw;const rows=searchItems(raw,true);
@@ -558,7 +578,7 @@ function anchor(c,t){
 }
 function cardPosition(c,id){return moving?.cell===c&&moving.product===id?moving.value:demo.stock[c.id]?.[id]?.pos??.5}
 const hiddenCardFields=new Set();
-const fieldLabels={names:'商品名稱',locations:'商品卡架位資訊',images:'商品圖片'};
+const fieldLabels={names:'商品名稱',locations:'商品明細（品號、架位與件數）',images:'商品圖片'};
 for(const btn of document.querySelectorAll('[data-hide]'))btn.onclick=()=>{
  const field=btn.dataset.hide;
  if(hiddenCardFields.has(field))hiddenCardFields.delete(field);
@@ -591,16 +611,22 @@ function billboards(){
  const contents=Object.entries(demo.stock[c.id]);
  if(contents.length>8){
   const [x,y]=project(...anchor(c,.5)),group=document.createElement('button');group.className='rackLabel';group.style.left=(1+x)*50+'%';group.style.top=(1-y)*50+'%';
-  group.dataset.group=c.id;group.textContent=contents.length+' 種商品';group.onclick=()=>choose(c);$('tags').append(group);continue;
+  group.dataset.group=c.id;group.classList.add('stockGroup');group.setAttribute('aria-label',title(c)+' 商品清單');
+  if(!hiddenCardFields.has('locations'))group.textContent=contents.length+' 種商品';
+  else if(!hiddenCardFields.has('images')){
+   const cover=photoFor(contents[0][0]);if(cover){const img=new Image();img.alt='';img.onerror=()=>img.remove();img.src=cover;group.append(img)}
+  }
+  group.onclick=()=>choose(c);$('tags').append(group);continue;
  }
  for(const [id,item] of contents){
   const [x,y]=project(...anchor(c,cardPosition(c,id))),el=document.createElement('button'),img=new Image(),name=document.createElement('b');
   el.dataset.cell=c.id;el.dataset.product=id;el.className='bill'+(focused&&active.o!==c.o?' dim':'')+(moving?.cell===c&&moving.product===id?' moving':'');el.style.left=(1+x)*50+'%';el.style.top=(1-y)*50+'%';
   el.setAttribute('aria-label',productName(id)+'，'+title(c));el.onclick=e=>{if(e.detail===0)showProduct(c,id)};
-  el.style.setProperty('--size',Math.max(40,Math.min(155,scale*85))+'px');const photo=photoFor(id);if(photo&&!hiddenCardFields.has('images')){img.src=photo;img.alt='';img.onerror=()=>{img.remove();if(!el.textContent)el.textContent=id};el.append(img)}
+  el.style.setProperty('--size',Math.max(40,Math.min(155,scale*85))+'px');const photo=photoFor(id);if(photo&&!hiddenCardFields.has('images')){img.src=photo;img.alt='';img.onerror=()=>img.remove();el.append(img)}
   if(!hiddenCardFields.has('names')){name.textContent=productName(id);el.append(name)}
-  if(zoom>=1.65){const info=document.createElement('small');info.textContent=id+' ／ '+item.qty+' 件'+(hiddenCardFields.has('locations')?'':' · '+title(c));el.append(info)}
-  if(!el.childElementCount){const text=document.createElement('small');text.textContent=hiddenCardFields.has('locations')?id:title(c);el.append(text)}
+  if(!hiddenCardFields.has('locations')&&(zoom>=1.65||!el.childElementCount)){
+   const info=document.createElement('small');info.textContent=id+' ／ '+item.qty+' 件 · '+title(c);el.append(info);
+  }
   $('tags').append(el);
  }
  }
@@ -673,7 +699,7 @@ function openActions(){panel();$('actions').append(aside);$('actions').showModal
 $('actions').onclose=()=>main.append(aside);
 function showProduct(c,id){
  choose(c);const photo=photoFor(id);$('infoPhoto').alt=productName(id);$('infoPhoto').hidden=!photo||hiddenCardFields.has('images');if(photo)$('infoPhoto').src=photo;
- $('itemName').hidden=hiddenCardFields.has('names');$('itemName').textContent=productName(id);$('itemDetail').textContent=id+(hiddenCardFields.has('locations')?'':' ／ '+title(c))+' ／ '+(demo.stock[c.id]?.[id]?.qty||0)+' 件';
+ $('itemName').hidden=hiddenCardFields.has('names');$('itemName').textContent=productName(id);$('itemDetail').hidden=hiddenCardFields.has('locations');$('itemDetail').textContent=id+' ／ '+title(c)+' ／ '+(demo.stock[c.id]?.[id]?.qty||0)+' 件';
  $('itemInfo').showModal();
 }
 const foot=document.querySelector('footer');
@@ -738,7 +764,7 @@ function slide(dx,dy){
 }
 // Capture on a stable element: the projected buttons are rebuilt while rendering.
 document.addEventListener('pointerdown',e=>{
- if(!moving&&!e.target.closest('.bill'))return;
+ if(e.target.closest('.tiltRail')||(!moving&&!e.target.closest('.bill')))return;
  if(!e.isPrimary||press){e.stopImmediatePropagation();return}
  e.preventDefault();e.stopImmediatePropagation();
  const cell=moving?.cell||cells.find(c=>c.id===e.target.closest('.bill').dataset.cell);
@@ -773,4 +799,46 @@ function setDevice(id){
 for(const id of ['mobile','desktop'])$(id).onclick=()=>setDevice(id);
 setDevice(matchMedia('(max-width:650px), (pointer:coarse)').matches?'mobile':'desktop');
 listWarehouses(true);new ResizeObserver(draw).observe(canvas);
+// Camera presets share the model's yaw and pitch with drag, pinch and plan view.
+const cameraScene=document.createElement('div'),tiltRail=document.createElement('div');
+cameraScene.className='cameraScene';tiltRail.className='tiltRail';
+view.before(cameraScene);cameraScene.append(view,tiltRail);
+const tilt=document.createElement('input');
+tilt.type='range';tilt.min='0';tilt.max='90';tilt.step='1';tilt.id='cameraTilt';
+tilt.setAttribute('aria-label','上下視角');tilt.setAttribute('aria-orientation','vertical');
+tiltRail.append(tilt);
+const cameraPresets=[
+ {name:'3D',icon:$('iso').innerHTML},
+ {name:'正面',yaw:0,path:'M3 4h18v16H3z M4 16h16 M4 9h16'},
+ {name:'左側',yaw:-Math.PI/2,path:'M6 5h13v14H6z M9 12h7 M12 8l-4 4 4 4'},
+ {name:'右側',yaw:Math.PI/2,path:'M5 5h13v14H5z M8 12h7 M12 8l4 4-4 4'}
+];
+let presetIndex=0;
+function displayPreset(){
+ const preset=cameraPresets[presetIndex]||cameraPresets[0],button=$('iso');
+ const next=cameraPresets[(presetIndex+1)%cameraPresets.length].name;
+ button.title=(presetIndex<0?'俯視':preset.name)+'視角，切換至'+next+'視角';
+ button.setAttribute('aria-label',button.title);
+ button.innerHTML=preset.icon||'<svg aria-hidden="true" viewBox="0 0 24 24"><path d="'+preset.path+'"/></svg>';
+}
+function syncTilt(){
+ const degrees=Math.round(pitch*180/Math.PI);
+ if(tilt.value!==String(degrees)||!tilt.title){
+  tilt.value=degrees;tilt.title='上下視角 '+degrees+'°';tilt.setAttribute('aria-valuetext',degrees+' 度');
+ }
+}
+$('iso').onclick=()=>{
+ presetIndex=(presetIndex+1)%cameraPresets.length;
+ resetAngle();zoom=1;zoomTarget=null;
+ if(presetIndex>0){yaw=cameraPresets[presetIndex].yaw;pitch=0}
+ displayPreset();draw();
+};
+$('top').addEventListener('click',()=>{presetIndex=-1;displayPreset();syncTilt()});
+tilt.oninput=()=>{pitch=Number(tilt.value)*Math.PI/180;draw()};
+const drawCamera=draw;
+draw=function(){syncTilt();drawCamera()};
+const enterWithCamera=enterWarehouse;
+enterWarehouse=function(id){presetIndex=0;displayPreset();enterWithCamera(id)};
+displayPreset();syncTilt();
+
 </script><script src="warehouse-touch.js"></script></html>

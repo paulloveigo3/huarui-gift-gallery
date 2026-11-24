@@ -45,7 +45,27 @@ select, textarea {
 .grid[data-layout="four"] .cover>.price-badge{left:2px}
 .grid[data-layout="list"] .cover>.price-badge{display:block;left:4px;bottom:4px;max-width:calc(100% - 8px)}
 </style>
-<style>.toolbar nav.tabs{display:flex;align-items:center}.toolbar nav.tabs>button{flex:1;min-width:0}.toolbar nav.tabs>#warehouseButton{flex:0 0 44px;width:44px;min-height:44px;padding:6px;color:var(--green)}#warehouseButton:disabled{opacity:.4}#warehouseDialog{box-sizing:border-box;width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;padding:0;margin:0;border:0;border-radius:0}#warehouseDialog[open]{display:flex;flex-direction:column}#warehouseFrame{border:0;width:100%;flex:1;min-height:0}#warehouseClose{align-self:flex-end;margin:5px 10px}</style><style>@media(max-width:650px),(pointer:coarse){#warehouseDialog[open].phoneReady #warehouseClose{display:none}}</style></head>
+<style>.toolbar nav.tabs{display:flex;align-items:center}.toolbar nav.tabs>button{flex:1;min-width:0}.toolbar nav.tabs>#warehouseButton{flex:0 0 44px;width:44px;min-height:44px;padding:6px;color:var(--green)}#warehouseButton:disabled{opacity:.4}#warehouseDialog{box-sizing:border-box;width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;padding:0;margin:0;border:0;border-radius:0}#warehouseDialog[open]{display:flex;flex-direction:column}#warehouseFrame{border:0;width:100%;flex:1;min-height:0}#warehouseClose{align-self:flex-end;margin:5px 10px}</style><style>@media(max-width:650px),(pointer:coarse){#warehouseDialog[open].phoneReady #warehouseClose{display:none}}</style><style>
+@media(max-width:650px),(pointer:coarse){
+ html:has(dialog[open]),body:has(dialog[open]){overflow:hidden;overscroll-behavior:none}
+ dialog[open],#warehouseDialog[open]{box-sizing:border-box;position:fixed;inset:auto;top:var(--modal-y,0px);left:var(--modal-x,0px);width:var(--modal-w,100%);height:var(--modal-h,100dvh);max-width:var(--modal-w,100%);max-height:var(--modal-h,100dvh);margin:0;border:0;border-radius:0;background:white;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain}
+ dialog::backdrop{background:white;backdrop-filter:none}
+ #warehouseDialog[open]{overflow:hidden}
+ dialog[open]:not(#warehouseDialog){touch-action:pan-y}
+ dialog[open] :is(input,textarea,select){font-size:16px;min-width:0;max-width:100%}
+ dialog[open] :is(img,video,canvas){max-width:100%}
+ dialog[open] :is(button,p,h2,dd){overflow-wrap:anywhere;min-width:0}
+ #editor[open]{display:flex;flex-direction:column;overflow:hidden;padding:max(0px,env(safe-area-inset-top)) env(safe-area-inset-right) 0 env(safe-area-inset-left)}
+ #editor .dialoghead,#editor .dialogfoot{position:static;flex:none}
+ #editor .dialogbody{min-height:0;min-width:0;flex:1;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain}
+ #editor .dialogfoot{padding-bottom:max(12px,env(safe-area-inset-bottom))}
+ #editor:has(#inlineCamera:not([hidden])) .dialogbody>:not(#inlineCamera):not(#editError):not(#resolveConflict){display:none}
+ #editor:has(#inlineCamera:not([hidden])) .dialogfoot>:not(#save){display:none}
+ #inlineCamera .camera-box{max-height:55dvh;width:100%;background:#11201c;touch-action:pan-y}
+ #inlineCamera .camera-box :is(video,img){object-fit:contain}
+ .camera-controls{flex-wrap:wrap}
+}
+</style></head>
 <body>
 <div id="offline" class="notice offline" hidden>目前沒有網路。請保留頁面，連線後再上傳。</div>
 <header><div class="top"><button class="mark" id="layoutToggle" aria-label="切換商品排列">▧</button><div class="brand"><div class="eyebrow">HUARUI · PRODUCT LIBRARY</div><h1 id="title">華瑞商品圖庫</h1></div><div class="top-actions"><button id="accountButton" class="account" aria-label="未登入，開啟帳號選單" aria-expanded="false" aria-controls="accountMenu"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg></button><div id="accountMenu" class="account-menu" hidden><div id="accountState" class="account-state">未登入 · 瀏覽模式</div><button id="loginButton">編輯登入</button><a id="todayCount" class="count-link" href="https://script.google.com/macros/s/AKfycbxLHKJ8KbtUvcklsZ8-_Q_RH9Hn6OEFPunTodQZa345hCugbwDBDVPYY6308uS66cSXZA/exec" target="_blank" rel="noopener noreferrer">當日盤點 ↗</a><button id="yesterdayButton" aria-pressed="false">昨日庫存</button><button id="openSettings">設定</button><button id="logout" hidden>登出</button></div></div></div></header>
@@ -687,6 +707,23 @@ attachNameCopy($('viewName'),()=>$('viewName').textContent);
 attachNameCopy($('editName'),()=>$('editName').textContent);
 
 </script>
-<dialog id="warehouseDialog" aria-label="3D 倉庫"><button type="button" id="warehouseClose">返回圖庫 ×</button><iframe id="warehouseFrame" title="3D 倉庫" allow="camera"></iframe></dialog><script src="warehouse-gallery.js"></script></body>
+<dialog id="warehouseDialog" aria-label="3D 倉庫"><button type="button" id="warehouseClose">返回圖庫 ×</button><iframe id="warehouseFrame" title="3D 倉庫" allow="camera"></iframe></dialog><script src="warehouse-gallery.js"></script><script>
+(function fitPhoneDialogs(){
+ const viewport=window.visualViewport;
+ if(!viewport)return;
+ let frame=0;
+ function resize(){
+  frame=0;
+  const style=document.documentElement.style;
+  for(const [name,value] of Object.entries({x:viewport.offsetLeft,y:viewport.offsetTop,w:viewport.width,h:viewport.height})){
+   style.setProperty('--modal-'+name,value+'px');
+  }
+ }
+ function queue(){if(!frame)frame=requestAnimationFrame(resize)}
+ viewport.addEventListener('resize',queue);
+ viewport.addEventListener('scroll',queue);
+ resize();
+})();
+</script></body>
 </html>
 

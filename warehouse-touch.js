@@ -19,10 +19,11 @@ listToggle.type='button';listToggle.className='viewIcon';listToggle.setAttribute
 listToggle.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4v17m18-17v17M3 10h18M3 19h18M6 5h5v5H6zM12 13h6v6h-6z"/></svg>';
 $('minus').before(listToggle);
 shelfPanel.id='shelfPanel';shelfPanel.hidden=true;shelfPanel.setAttribute('aria-label','貨架分層清單');
-view.after(shelfPanel);
+cameraScene.after(shelfPanel);
 let listBook=null,listWarehouse=null;
 const visibleCards=new Set();
 function refreshCard(button){
+ if(hiddenCardFields.has('images'))return;
  const url=photoFor(button.dataset.product);
  if(!url||button.querySelector('img'))return;
  const img=new Image();img.alt='';img.src=url;button.prepend(img);
@@ -53,10 +54,24 @@ function populateShelves(){
     items.className='shelfItems';
     for(const [id,item] of Object.entries(demo.stock[c.id]||{})){
      const button=document.createElement('button');
-     button.dataset.product=id;button.textContent=productName(id)+' · '+item.qty+' 件';button.onclick=()=>showProduct(c,id);items.append(button);cardObserver.observe(button);
+     button.dataset.product=id;button.setAttribute('aria-label',productName(id)+'，'+title(c));
+     const name=hiddenCardFields.has('names')?'':productName(id);
+     const details=hiddenCardFields.has('locations')?'':item.qty+' 件';
+     button.textContent=[name,details].filter(Boolean).join(' · ');
+     button.onclick=()=>showProduct(c,id);items.append(button);cardObserver.observe(button);
     }
     if(!items.childElementCount)items.textContent='空位';
-    body.append(layer,items);
+    const add=document.createElement('button');
+    add.type='button';add.className='addLayerItem';add.textContent='＋ 新增商品';
+    add.setAttribute('aria-label',title(c)+' 新增商品');
+    add.onclick=()=>{
+     choose(c);chosen=null;pulling=false;
+     if(mode==='issue')mode='move';
+     openActions();
+     $('shelfCards').querySelector('.addCard')?.focus({preventScroll:true});
+    };
+    const row=document.createElement('div');row.className='layerHeading';row.append(layer,add);
+    body.append(row,items);
    }
   }
   section.append(heading,body);section.open=expanded.has(rack);section.ontoggle=fill;
@@ -71,6 +86,7 @@ function showShelves(open){
  if(open)populateShelves();else draw();
 }
 listToggle.onclick=()=>showShelves(shelfPanel.hidden);
+for(const button of document.querySelectorAll('[data-hide]'))button.addEventListener('click',()=>{listBook=null;populateShelves()});
 const updateShelfPanel=panel;
 panel=function(){updateShelfPanel();populateShelves()};
 $('back').addEventListener('click',()=>{showShelves(false);listWarehouse=null});
